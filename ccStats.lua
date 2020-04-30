@@ -1,5 +1,7 @@
 local ccStats = {}
 
+local responseCode = require("tcpResponseCode")
+
 local mul = function (stat, change) return stat * change end
 local div = function (stat, change) return stat / change end
 local add = function (stat, change) return stat + change end
@@ -30,11 +32,13 @@ end
 function ccStats:AddRandomStat()
     local index = math.random(#stats)
     modifyStat(stats[index].stat, stats[index].change, stats[index].increase)
+    return responseCode.success
 end
 
 function ccStats:RemoveRandomStat()
     local index = math.random(#stats)
     modifyStat(stats[index].stat, stats[index].change, stats[index].decrease)
+    return responseCode.success
 end
 
 --When adding a new function add the mapping of Crowd control code to function here

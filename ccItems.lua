@@ -1,69 +1,79 @@
 local ccItems = {}
 
+local responseCode = require("tcpResponseCode")
+
 -- internal
 function ccItems:GiveItem(item)
+    if player:HasCollectible(item) then
+        return responseCode.failure, "User Already Has Item"
+    end
     player:AddCollectible( item,0, false)
+    return responseCode.success
 end
 
 --internal
 function ccItems:TakeItem(item)
+    if not player:HasCollectible(item) then
+        return responseCode.failure, "User Doesn't Have Item To Remove"
+    end
     player:RemoveCollectible(item)
+    return responseCode.success
 end
 
 function ccItems:GiveMissingNo()
-    ccItems:GiveItem(CollectibleType.COLLECTIBLE_MISSING_NO)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_MISSING_NO)
 end
 
 function ccItems:GiveSoyMilk()
-    ccItems:GiveItem(CollectibleType.COLLECTIBLE_SOY_MILK)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_SOY_MILK)
 end
 
 function ccItems:GiveTheMind()
-    ccItems:GiveItem(CollectibleType.COLLECTIBLE_MIND)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_MIND)
 end
 
 function ccItems:GiveBrimstone()
-    ccItems:GiveItem(CollectibleType.COLLECTIBLE_BRIMSTONE)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_BRIMSTONE)
 end
 
 function ccItems:GiveKnife()
-    ccItems:GiveItem(CollectibleType.COLLECTIBLE_MOMS_KNIFE)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_MOMS_KNIFE)
 end
 
 function ccItems:GivePoly()
-    ccItems:GiveItem(CollectibleType.COLLECTIBLE_POLYPHEMUS)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_POLYPHEMUS)
 end
 
 function ccItems:GiveSacredHeart()
-    ccItems:GiveItem(CollectibleType_SACRED_HEART)
+    return ccItems:GiveItem(CollectibleType_SACRED_HEART)
 end
 
 function ccItems:RemoveMissingNo()
-    ccItems:TakeItem(CollectibleType.COLLECTIBLE_MISSING_NO)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_MISSING_NO)
 end
 
 function ccItems:RemoveSoyMilk()
-    ccItems:TakeItem(CollectibleType.COLLECTIBLE_SOY_MILK)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_SOY_MILK)
 end
 
 function ccItems:RemoveTheMind()
-    ccItems:TakeItem(CollectibleType.COLLECTIBLE_MIND)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_MIND)
 end
 
 function ccItems:RemoveBrimstone()
-    ccItems:TakeItem(CollectibleType.COLLECTIBLE_BRIMSTONE)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_BRIMSTONE)
 end
 
 function ccItems:RemoveKnife()
-    ccItems:TakeItem(CollectibleType.COLLECTIBLE_MOMS_KNIFE)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_MOMS_KNIFE)
 end
 
 function ccItems:RemovePoly()
-    ccItems:TakeItem(CollectibleType.COLLECTIBLE_POLYPHEMUS)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_POLYPHEMUS)
 end
 
 function ccItems:RemoveSacredHeart()
-    ccItems:TakeItem(CollectibleType_SACRED_HEART)
+    return ccItems:TakeItem(CollectibleType_SACRED_HEART)
 end
 
 --When adding a new function add the mapping of Crowd control code to function here
