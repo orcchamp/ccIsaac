@@ -45,7 +45,7 @@ function ccItems:GivePoly()
 end
 
 function ccItems:GiveSacredHeart()
-    return ccItems:GiveItem(CollectibleType_SACRED_HEART)
+    return ccItems:GiveItem(CollectibleType.COLLECTIBLE_SACRED_HEART)
 end
 
 function ccItems:RemoveMissingNo()
@@ -73,7 +73,7 @@ function ccItems:RemovePoly()
 end
 
 function ccItems:RemoveSacredHeart()
-    return ccItems:TakeItem(CollectibleType_SACRED_HEART)
+    return ccItems:TakeItem(CollectibleType.COLLECTIBLE_SACRED_HEART)
 end
 
 --When adding a new function add the mapping of Crowd control code to function here

@@ -7,7 +7,8 @@ local ccItems = require("ccItems")
 local ccMisc = require("ccMisc")
 local ccStats = require("ccStats")
 local ccTrinkets = require("ccTrinkets")
-local responseFormat = require("tcpResponseCode")
+local responseFormat = require("tcpResponse")
+local responseCode = require("tcpResponseCode")
 
 local socket = require("socket")
 
@@ -48,18 +49,20 @@ end
 
 function ccIsaac:ParseMessages()
     local message, status, partial =  client:receive()
+    local response = responseFormat
     if  partial ~= nil and string.len(partial) >0  then
         partialAsTable = json.decode(partial)
         local method = partialAsTable["code"]
-        local response = responseFormat
-        response.id = partialAsTable["id"]
+        response["id"] = partialAsTable["id"]
         if method ~= nil then 
-            response.code, response.message = methodmap[method]()
+            response["code"], response["message"] = methodmap[method]()
+        else
+            response["code"] = responseCode.unavailable
+            response["message"] = "Requested Method was not found"
         end
+        responseAsString = json.encode(response)
+        client:send(responseAsString)
     end
-
-     responseAsString = json.encode(response)
-     client:send(responseAsString)
 end
 
 ccIsaac:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, ccIsaac.Init )
