@@ -61,6 +61,7 @@ function ccIsaac:ParseMessages()
             response["message"] = "Requested Method was not found"
         end
         responseAsString = json.encode(response)
+        responseAsString = responseAsString .. "\0"
         client:send(responseAsString)
     end
 end
