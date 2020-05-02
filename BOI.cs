@@ -12,7 +12,7 @@ public class BOI : SimpleTCPPack
 
     public BOI(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
 
-    public override Game Game => new Game(42, "The Binding Of Isaac: Afterbirth+ ", "the_binding_of_isaac_afterbirth_plus", "PC", ConnectorType.SimpleTCPConnector);
+    public override Game Game => new Game(60, "The Binding Of Isaac: Afterbirth+ ", "the_binding_of_isaac_afterbirth_plus", "PC", ConnectorType.SimpleTCPConnector);
     
     // When adding new functions to the mod please add the new Crowd Control Effect here
     //This is a display name mapped to a unique string. This is used to map the function from CC to Mod
