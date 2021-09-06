@@ -1,0 +1,25 @@
+{
+    "Lua.diagnostics.globals": [
+        "CollectibleType",
+        "TrinketType",
+        "LevelCurse",
+        "Game",
+        "DamageFlag",
+        "EntityRef",
+        "ModCallbacks",
+        "Isaac",
+        "RNG",
+        "PillEffect",
+        "PillColor",
+        "Card",
+        "RegisterMod",
+        "Random",
+        "client",
+        "player",
+        "methodmap",
+        "rng",
+        "modifyStat",
+        "timed_effects",
+        "last_frame_time"
+    ]
+}

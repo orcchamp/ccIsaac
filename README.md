@@ -5,14 +5,15 @@ To get this to work you need to add --luadebug as a launch option in steam so th
 
 # Local Testing
 to test locally 
-- install mod folder to C:\Users\(USERNAME)\Documents\My Games\Binding of Isaac Afterbirth+ Mods\
-- Open BOI.cs in the [CCSDK](https://forum.warp.world/t/how-to-setup-and-use-the-crowd-control-sdk/5121)
+- install mod folder to SteamLibrary\steamapps\common\The Binding of Isaac Rebirth\mods\CrowdControl 
+- You can find this folder by going to steam and right-clicking Binding of Isaac > Manage > Browse local files
+- Open BindingOfIsaacRepentance.cs in the [CCSDK](https://forum.warp.world/t/how-to-setup-and-use-the-crowd-control-sdk/5121)
 - click on select pack
 - click on connect
 - Launch Isaac
-- Enable ccIsaac mod
+- Enable ccIsaac mod (if not enabled yet)
 - Start game
-- Test effects by clicking on the name of the effect from BOI.cs and then the play arrow
+- Test effects by clicking on the name of the effect from BindingOfIsaacRepentance.cs and then the play arrow
 
 
 # Contributution
@@ -20,3 +21,8 @@ to test locally
 - create a feature branch
 - implement changes
 - Open a pull request
+or
+- Message me on discord (@Dr. Njitram#0451)
+# Credits
+Created by cloudlupus
+Updated and currently maintained by Dr_Njitram

@@ -29,13 +29,13 @@ function modifyStat(stat, delta, method)
     end
 end
 
-function ccStats:AddRandomStat()
+function ccStats.AddRandomStat()
     local index = math.random(#stats)
     modifyStat(stats[index].stat, stats[index].change, stats[index].increase)
     return responseCode.success
 end
 
-function ccStats:RemoveRandomStat()
+function ccStats.RemoveRandomStat()
     local index = math.random(#stats)
     modifyStat(stats[index].stat, stats[index].change, stats[index].decrease)
     return responseCode.success

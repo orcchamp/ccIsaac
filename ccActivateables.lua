@@ -1,9 +1,9 @@
 local ccActivateables = {}
 
-local response = require("tcpResponseCode")
+local responseCode = require("tcpResponseCode")
 
 -- Internal function
-function ccActivateables:UseActiveItem(item)
+function ccActivateables.UseActiveItem(item)
     player:UseActiveItem(
         item,
         true,
@@ -13,89 +13,110 @@ function ccActivateables:UseActiveItem(item)
     )
 end
 
-function ccActivateables:RollD1()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D1)
-    return response.success
+function ccActivateables.RollD1()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D1)
+    return responseCode.success
 end
 
-function ccActivateables:RollD4()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D4)
-    return response.success
+function ccActivateables.RollD4()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D4)
+    return responseCode.success
 end
 
-function ccActivateables:RollD6()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D6)
-    return response.success
+function ccActivateables.RollD6()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D6)
+    return responseCode.success
 end
 
-function ccActivateables:RollD7()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D7)
-    return response.success
+function ccActivateables.RollD7()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D7)
+    return responseCode.success
 end
 
-function ccActivateables:RollD8()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D8)
-    return response.success
+function ccActivateables.RollD8()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D8)
+    return responseCode.success
 end
 
-function ccActivateables:RollD10()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D10)
-    return response.success
+function ccActivateables.RollD10()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D10)
+    return responseCode.success
 end
 
-function ccActivateables:RollD12()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D12)
-    return response.success
+function ccActivateables.RollD12()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D12)
+    return responseCode.success
 end
 
-function ccActivateables:RollD20()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_D20)
-    return response.success
+function ccActivateables.RollD20()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D20)
+    return responseCode.success
 end
 
-function ccActivateables:RollDInf()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_DINF)
-    return response.success
+function ccActivateables.RollDInf()
+    if CollectibleType.COLLECTIBLE_D_INFINITY ~= nil then -- for afterbirth
+		return ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_D_INFINITY)
+	else
+		return ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_DINF)
+	end
+    return responseCode.success
 end
 
-function ccActivateables:UseGuppiesHead()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_GUPPYS_HEAD)
-    return response.success
+function ccActivateables.UseGuppiesHead()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_GUPPYS_HEAD)
+    return responseCode.success
 end
 
-function ccActivateables:UseGuppiesPaw()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_GUPPYS_PAW)
-    return response.success
+function ccActivateables.UseGuppiesPaw()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_GUPPYS_PAW)
+    return responseCode.success
 end
 
-function ccActivateables:UseShovel()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_WE_NEED_GO_DEEPER)
-    return response.success
+function ccActivateables.UseShovel()
+    if CollectibleType.COLLECTIBLE_WE_NEED_TO_GO_DEEPER ~= nil then -- for afterbirth
+		return ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_WE_NEED_TO_GO_DEEPER)
+	else
+		return ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_WE_NEED_GO_DEEPER)
+	end
+    return responseCode.success
 end
 
-function ccActivateables:UseDadsKey()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_DADS_KEY)
-    return response.success
+function ccActivateables.UseDadsKey()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_DADS_KEY)
+    return responseCode.success
 end
 
-function ccActivateables:UseClicker()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_CLICKER)
-    return response.success
+function ccActivateables.UseClicker()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_CLICKER)
+    return responseCode.success
 end
 
-function ccActivateables:UsePause()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_PAUSE)
-    return response.success
+function ccActivateables.UsePause()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_PAUSE)
+    return responseCode.success
 end
 
-function ccActivateables:UseMegaBlast()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_MEGA_SATANS_BREATH )
-    return response.success
+function ccActivateables.UseMegaBlast()
+    if CollectibleType.COLLECTIBLE_MEGA_BLAST ~= nil then -- for afterbirth
+		return ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_MEGA_BLAST)
+	else
+		return ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_MEGA_SATANS_BREATH)
+	end
+    return responseCode.success
 end
 
-function ccActivateables:UseForgetMeNow()
-    ccActivateables:UseActiveItem(CollectibleType.COLLECTIBLE_FORGET_ME_NOW)
-    return response.success
+function ccActivateables.UseForgetMeNow()
+    ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_FORGET_ME_NOW)
+    return responseCode.success
+end
+
+function ccActivateables.UseRKey()
+    if CollectibleType.COLLECTIBLE_R_KEY == nil then
+        ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_FORGET_ME_NOW)
+    else
+        ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_R_KEY)
+    end
+    return responseCode.success
 end
 
 --When adding a new function add the mapping of Crowd control code to function here
@@ -118,5 +139,7 @@ ccActivateables.methods = {
     use_clicker = ccActivateables.UseClicker,
     use_pause = ccActivateables.UsePause,
     use_mega_blast = ccActivateables.UseMegaBlast,
-    use_forget_me_now = ccActivateables.UseForgetMeNow}
+    use_forget_me_now = ccActivateables.UseForgetMeNow,
+	use_r_key = ccActivateables.UseRKey
+}
 return ccActivateables
