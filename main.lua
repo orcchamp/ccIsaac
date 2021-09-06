@@ -28,9 +28,8 @@ rng = RNG() --General RNG method used by all functions
 methodmap = {} --Will contain all functions
 timed_effects = {} --Table containing all currently running effects name = (duration_left_ms, id)
 last_frame_time = 0 --Used to keep track of time since last frame
+was_paused = false
 
-
-timed_effects["test_timed"] = {5000, 1}
 
 function ccIsaac:mergeTables(source, dest)
     for k, v in pairs(source) do
@@ -65,14 +64,9 @@ function ccIsaac.Init()
     rng:SetSeed(Random(), 1)
 end
 
-function OnRender()
-    if timed_effects["test_timed"] ~= nil then
-        Isaac.RenderText("Timer: " .. timed_effects["test_timed"][1], 100, 30, 1 , 1, 1, 1)
-    end
-end
+
 
 function SendResponse(id, status, message, timeRemaining, type)
-    timeRemaining = timeRemaining or 0
     type = type or 0x00
 
     local finishedResponse = responseFormat
@@ -84,6 +78,7 @@ function SendResponse(id, status, message, timeRemaining, type)
 
     local responseAsString = json.encode(finishedResponse)
     responseAsString = responseAsString .. "\0"
+    Isaac.DebugString("Sent Packet: " .. responseAsString)
     client:send(responseAsString)
 end
 
@@ -91,7 +86,7 @@ function OnPause()
     for effect, info in pairs(timed_effects) do
         local time_remaining = info[1]
         local id = info[2]
-        SendResponse(id, responseCode.paused, nil, time_remaining)
+        SendResponse(id, responseCode.paused, nil, time_remaining, 0xFF)
     end
 end
 
@@ -99,11 +94,13 @@ function UnPause()
     for effect, info in pairs(timed_effects) do
         local time_remaining = info[1]
         local id = info[2]
-        SendResponse(id, responseCode.resumed, nil, time_remaining)
+        SendResponse(id, responseCode.resumed, nil, time_remaining, 0xFF)
     end
 end
 
-function ccIsaac.ParseMessages()
+
+
+function ccIsaac.ParseMessages() --Function is called 30 times per second, and only when NOT paused
     local time = Isaac.GetTime() --current time in ms!
     if last_frame_time == 0 then last_frame_time = Isaac.GetTime() end --Set first last frame time
 
@@ -125,9 +122,8 @@ function ccIsaac.ParseMessages()
                 if timed_effects[method] ~= nil then --Already present
                     response["status"], response["message"] = responseCode.retry, "Effect already active"
                 end
-                Isaac.DebugString("Timed effect: " .. method)
 
-                local duration = 5000
+                local duration = 10000
                 timed_effects[method] = {duration, partialAsTable["id"]} --Set duration
 
 				response["status"], response["message"] = methodmap[method]()
@@ -142,27 +138,43 @@ function ccIsaac.ParseMessages()
         end
         local responseAsString = json.encode(response)
         responseAsString = responseAsString .. "\0"
+        Isaac.DebugString("Sent Packet: " .. responseAsString)
         client:send(responseAsString)
     end
 
     --Handle timed effects
-    if Game():IsPaused() == false then --Only decrement values if game is not paused
-        local passed_time = time - last_frame_time
-        for method, info in pairs(timed_effects) do
-            local time_remaining = info[1]
-            local id = info[2]
-            if time_remaining - passed_time < 0 then
-                timed_effects[method] = nil
-                methodmap[method .. "_end"]()
-                SendResponse(id, responseCode.finished, nil, 0)
-            else
-                timed_effects[method] = {time_remaining - passed_time, id}
-            end
+    local passed_time = time - last_frame_time
+    for method, info in pairs(timed_effects) do
+        local time_remaining = info[1]
+        local id = info[2]
+        if time_remaining - passed_time < 0 then
+            timed_effects[method] = nil
+            methodmap[method .. "_end"]()
+            SendResponse(id, responseCode.finished, nil, 0, 0x00)
+        else
+            timed_effects[method] = {time_remaining - passed_time, id}
         end
     end
 
-
     last_frame_time = time
+end
+
+function OnRender()
+    if was_paused == false and Game():IsPaused() == true  then
+        OnPause()
+        was_paused = true
+    elseif was_paused == true and Game():IsPaused() == false then
+        UnPause()
+        was_paused = false
+    end
+
+    if Game():IsPaused() then
+        last_frame_time = Isaac.GetTime()
+    end
+ 
+    if timed_effects["test_timed"] ~= nil then
+        Isaac.RenderText("Timer: " .. timed_effects["test_timed"][1], 100, 30, 1 , 1, 1, 1)
+    end
 end
 
 ccIsaac.Init()
