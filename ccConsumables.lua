@@ -31,11 +31,12 @@ function ccConsumables.DamageHalfHeart()
 	if player:GetHearts() == 1 then
 	    return responseCode.failure, "Already At Min Hearts"
     end
-    player:TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0 )
+    player:TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
     return responseCode.success
 end
 
 function ccConsumables.AddCoin(numberOfCoins)
+    numberOfCoins = numberOfCoins or 1
     if player:GetNumCoins() >= 99 then
         return responseCode.failure, "Already At Full Coins"
     end
@@ -44,6 +45,7 @@ function ccConsumables.AddCoin(numberOfCoins)
 end
 
 function ccConsumables.RemoveCoin(numberOfCoins)
+    numberOfCoins = numberOfCoins or 1
     if player:GetNumCoins() <= 0 then
         return responseCode.failure, "Already At Min Coins"
     end
@@ -55,6 +57,7 @@ function ccConsumables.RemoveCoin(numberOfCoins)
 end
 
 function ccConsumables.AddBomb(numberOfBombs)
+    numberOfBombs = numberOfBombs or 1
     if player:GetNumBombs() >= 99 then
         return responseCode.failure, "Already At Full Bombs"
     end
@@ -63,6 +66,7 @@ function ccConsumables.AddBomb(numberOfBombs)
 end
 
 function ccConsumables.RemoveBomb(numberOfBombs)
+    numberOfBombs = numberOfBombs or 1
     if player:GetNumBombs() <= 0 then
         return responseCode.failure, "Already At Min Bombs"
     end
@@ -90,6 +94,7 @@ function ccConsumables.RemoveGoldenBomb()
 end
 
 function ccConsumables.AddKey(numberofKeys)
+    numberofKeys = numberofKeys or 1
     if player:GetNumKeys() >= 99 then
         return responseCode.failure, "Already At Full Keys"
     end
@@ -98,6 +103,7 @@ function ccConsumables.AddKey(numberofKeys)
 end
 
 function ccConsumables.RemoveKey(numberofKeys)
+    numberofKeys = numberofKeys or 1
     if player:GetNumKeys() <= 0 then
         return responseCode.failure, "Already At Min Keys"
     end

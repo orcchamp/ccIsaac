@@ -119,6 +119,15 @@ function ccActivateables.UseRKey()
     return responseCode.success
 end
 
+function ccActivateables.UseMegaMush()
+    if CollectibleType.COLLECTIBLE_MEGA_MUSH == nil then
+        return responseCode.failure, "Must be playing Repentance"
+    else
+        ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_MEGA_MUSH)
+    end
+    return responseCode.success
+end
+
 --When adding a new function add the mapping of Crowd control code to function here
 ccActivateables.methods = {
     use_d1 = ccActivateables.RollD1,
@@ -140,6 +149,7 @@ ccActivateables.methods = {
     use_pause = ccActivateables.UsePause,
     use_mega_blast = ccActivateables.UseMegaBlast,
     use_forget_me_now = ccActivateables.UseForgetMeNow,
-	use_r_key = ccActivateables.UseRKey
+	use_r_key = ccActivateables.UseRKey,
+    use_mega_mush = ccActivateables.UseMegaMush
 }
 return ccActivateables

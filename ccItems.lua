@@ -69,6 +69,13 @@ function ccItems.RemoveRandomItem()
 				table.insert(colletibles, i)
 			end
 		end
+        if active_flight == true then
+            colletibles[CollectibleType.COLLECTIBLE_TRANSCENDENCE] = nil
+            if player:GetCollectibleCount() == 1 then
+                return responseCode.failure, "User has no items to remove"
+            end
+        end
+           
 		return ccItems.TakeItem(colletibles[1 + rng:RandomInt(player:GetCollectibleCount())])
 	end
     return responseCode.failure, "Failed to select item"

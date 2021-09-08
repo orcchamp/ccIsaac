@@ -22,6 +22,21 @@
         "timed_effects",
         "last_frame_time",
         "handled_pause_event",
-        "was_paused"
+        "was_paused",
+        "InputHook",
+        "ButtonAction",
+        "ccIsaac",
+        "inverted_controls",
+        "input_map",
+        "Input",
+        "currently_pressed",
+        "invulnerable",
+        "time_table",
+        "shader_inverted",
+        "shaderAPI",
+        "dump",
+        "ActiveSlot",
+        "pixelation_active",
+        "active_flight"
     ]
 }

@@ -30,9 +30,15 @@ namespace CrowdControl.Games.Packs
 			new Effect("Give Blue spider", "give_blue_spider", new[]{"amount50"}),
 			new Effect("Give Flies", "give_blue_flies", new[]{"amount50"}),
 			new Effect("Give Dips", "give_random_dip", new[]{"amount50"}),
+			new Effect("Charge Item", "charge_item"),
+			new Effect("Use Item", "use_active_item"),
 			new Effect("Fart!", "fart"),
 			new Effect("Explode!", "explode"),
-			new Effect("Test Timer this does nothing", "test_timed"),
+			new Effect("Invert Controls (1min)", "inverted_timed"),
+			new Effect("Invulnerable (30s)", "invulnerable_timed"),
+			new Effect("Retrovision (30s)", "pixelation_timed"),
+			new Effect("Flip the screen (30s)", "flipped_timed"),
+			new Effect("Flight (30s)", "flight_timed"),
 
 			//Stats folder
 			new Effect("Change Stats", "change_stats", ItemKind.Folder),
@@ -40,12 +46,12 @@ namespace CrowdControl.Games.Packs
 			new Effect("Nerf Random Stat", "remove_stat", "change_stats"),
 
 			//Trinket Folder
-			new Effect("Give Take Trinket", "give_take_trinket", ItemKind.Folder),
+			new Effect("Give/Take Trinket", "give_take_trinket", ItemKind.Folder),
 			new Effect("Give Random Trinket", "replace_trinket", "give_take_trinket"),
 			new Effect("Drop Trinket", "drop_trinket", "give_take_trinket"),
 
 			//Give Take Consumeable Folder
-			new Effect("Give/Take Consumeable", "give_take_consumeable", ItemKind.Folder),
+			new Effect("Give/Take Consumable", "give_take_consumable", ItemKind.Folder),
 			new Effect("Give Coin", "add_coin", new[]{"amount100"}, "give_take_consumeable"),
 			new Effect("Take Coin", "remove_coin", new[]{"amount100"}, "give_take_consumeable"),
 			new Effect("Give Bomb", "add_bomb", new[]{"amount100"}, "give_take_consumeable"),
@@ -82,11 +88,12 @@ namespace CrowdControl.Games.Packs
 			new Effect("Use Clicker", "use_clicker", "use_item"),
 			new Effect("Use Pause", "use_pause", "use_item"),
 			new Effect("Use Mega Blast", "use_mega_blast", "use_item"),
+			new Effect("Use Mega Mush", "use_mega_mush", "use_item"),
 			new Effect("Use Forget Me Now", "use_forget_me_now", "use_item"),
 			new Effect("Use R Key", "use_r_key", "use_item"),
 
 			//Give or Take Items folder
-			new Effect("Give/take Item", "give_take_item", ItemKind.Folder),
+			new Effect("Give/Take Item", "give_take_item", ItemKind.Folder),
 			new Effect("Give Random Item", "give_random_item", "give_take_item"),
 			new Effect("Give Missing No", "give_missing_no", "give_take_item"),
 			new Effect("Give Soy Milk", "give_soy_milk", "give_take_item"),
@@ -113,8 +120,8 @@ namespace CrowdControl.Games.Packs
 		//Slider ranges need to be defined
 		public override List<ItemType> ItemTypes => new List<ItemType>(new[]
 		{
-			new ItemType("Amount","amount100",ItemType.Subtype.Slider, "{\"min\":1,\"max\":99}"),
-			new ItemType("Amount","amount50",ItemType.Subtype.Slider, "{\"min\":1,\"max\":50}")
+			new ItemType("Amount", "amount100", ItemType.Subtype.Slider, "{\"min\":1,\"max\":99}"),
+			new ItemType("Amount", "amount50", ItemType.Subtype.Slider, "{\"min\":1,\"max\":50}")
 		});
 	}
 }

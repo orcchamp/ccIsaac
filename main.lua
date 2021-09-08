@@ -1,4 +1,4 @@
-local ccIsaac = RegisterMod("CCIsaac", 1)
+ccIsaac = RegisterMod("CCIsaac", 1)
 
 -- If adding a new module add a new import
 local ccActivateables = require("ccActivateables")
@@ -26,9 +26,39 @@ client:connect("127.0.0.1", 58430)
 
 rng = RNG() --General RNG method used by all functions
 methodmap = {} --Will contain all functions
+
+time_table = {
+    ["inverted_timed"] = 60000,
+    ["invulnerable_timed"] = 15000,
+    ["pixelation_timed"] = 30000,
+    ["flipped_timed"] = 30000,
+    ["flight_timed"] = 30000
+}
 timed_effects = {} --Table containing all currently running effects name = (duration_left_ms, id)
 last_frame_time = 0 --Used to keep track of time since last frame
 was_paused = false
+
+pixelation_active = false
+active_flight = false
+invulnerable = false
+shader_inverted = 0
+
+inverted_controls = false --Global for inverted controls
+currently_pressed = {0, 0, 0, 0, 0, 0, 0, 0} --Map of pressed controls
+input_map = { --Map for inverted controls
+    [ButtonAction.ACTION_LEFT + 1] = ButtonAction.ACTION_RIGHT,
+    [ButtonAction.ACTION_RIGHT + 1] = ButtonAction.ACTION_LEFT,
+    [ButtonAction.ACTION_UP + 1] = ButtonAction.ACTION_DOWN,
+    [ButtonAction.ACTION_DOWN + 1] = ButtonAction.ACTION_UP,
+    [ButtonAction.ACTION_SHOOTLEFT + 1] = ButtonAction.ACTION_SHOOTRIGHT,
+    [ButtonAction.ACTION_SHOOTRIGHT + 1] = ButtonAction.ACTION_SHOOTLEFT,
+    [ButtonAction.ACTION_SHOOTUP + 1] = ButtonAction.ACTION_SHOOTDOWN,
+    [ButtonAction.ACTION_SHOOTDOWN + 1] = ButtonAction.ACTION_SHOOTUP
+} 
+
+
+--RenderDebugString = ""
+RenderDebugString =  currently_pressed[1] .. currently_pressed[2] .. currently_pressed[3] .. currently_pressed[4] .. currently_pressed[5] .. currently_pressed[6] .. currently_pressed[7] .. currently_pressed[8]
 
 
 function ccIsaac:mergeTables(source, dest)
@@ -100,7 +130,7 @@ end
 
 
 
-function ccIsaac.ParseMessages() --Function is called 30 times per second, and only when NOT paused
+function ccIsaac:ParseMessages() --Function is called 30 times per second, and only when NOT paused
     local time = Isaac.GetTime() --current time in ms!
     if last_frame_time == 0 then last_frame_time = Isaac.GetTime() end --Set first last frame time
 
@@ -122,13 +152,18 @@ function ccIsaac.ParseMessages() --Function is called 30 times per second, and o
                 if timed_effects[method] ~= nil then --Already present
                     response["status"], response["message"] = responseCode.retry, "Effect already active"
                 end
+                response["status"], response["message"] = methodmap[method]()
 
-                local duration = 10000
-                timed_effects[method] = {duration, partialAsTable["id"]} --Set duration
-
-				response["status"], response["message"] = methodmap[method]()
-                response["timeRemaining"] = duration
-                response["type"] = 0xFF
+                if response["status"] == responseCode.failure then
+                    response["timeRemaining"] = 0
+                    response["type"] = 0x00
+                else
+                    local duration = time_table[method]
+                    timed_effects[method] = {duration, partialAsTable["id"]} --Set duration
+                             
+                    response["timeRemaining"] = duration
+                    response["type"] = 0xFF
+                end
 			else
 				response["status"], response["message"] = methodmap[method]()
 			end
@@ -159,7 +194,7 @@ function ccIsaac.ParseMessages() --Function is called 30 times per second, and o
     last_frame_time = time
 end
 
-function OnRender()
+function ccIsaac:OnRender()
     if was_paused == false and Game():IsPaused() == true  then
         OnPause()
         was_paused = true
@@ -171,13 +206,36 @@ function OnRender()
     if Game():IsPaused() then
         last_frame_time = Isaac.GetTime()
     end
- 
-    if timed_effects["test_timed"] ~= nil then
-        Isaac.RenderText("Timer: " .. timed_effects["test_timed"][1], 100, 30, 1 , 1, 1, 1)
+end
+
+function ccIsaac:OnInput(entity, inputHook, buttonAction)
+    if inverted_controls == true and inputHook==InputHook.GET_ACTION_VALUE then
+        currently_pressed[buttonAction + 1] = Input.IsActionPressed(buttonAction, 0) and 1 or 0
+        return currently_pressed[input_map[buttonAction + 1] + 1]
+    end
+end
+
+function ccIsaac:OnDamage(TookDamage, DamageAmoujt, DamageFlags, DamageSource, DamageCountdownFrames)
+    if invulnerable == true and TookDamage:ToPlayer() ~= nil then
+        return false
+    end
+end
+
+
+function ccIsaac:GetShaderParams(shaderName)
+    if shaderName == 'Inverted' then
+        if shaderAPI then
+            shaderAPI.Shader("Inverted", {inverted = shader_inverted})
+        else
+            return {inverted = shader_inverted};
+        end
     end
 end
 
 ccIsaac.Init()
 --ccIsaac:AddCallback(ModCallbacks.MC_POST_PLAYER_INIT, ccIsaac.Init )
-ccIsaac:AddCallback(ModCallbacks.MC_POST_UPDATE , ccIsaac.ParseMessages)
-ccIsaac:AddCallback(ModCallbacks.MC_POST_RENDER, OnRender)
+ccIsaac:AddCallback(ModCallbacks.MC_POST_UPDATE, ccIsaac.ParseMessages)
+ccIsaac:AddCallback(ModCallbacks.MC_POST_RENDER, ccIsaac.OnRender)
+ccIsaac:AddCallback(ModCallbacks.MC_INPUT_ACTION, ccIsaac.OnInput)
+ccIsaac:AddCallback(ModCallbacks.MC_ENTITY_TAKE_DMG, ccIsaac.OnDamage)
+ccIsaac:AddCallback(ModCallbacks.MC_GET_SHADER_PARAMS, ccIsaac.GetShaderParams)

@@ -62,16 +62,36 @@ function ccMisc.Explode()
     if player:GetHearts() == 1 then
 	    return responseCode.failure, "Can't kill player with explode"
     end
-    Isaac.Explode(player.Position, player, 40)
+    Game():BombExplosionEffects(player.Position, 40)
     return responseCode.success
 end
 
+function ccMisc.ChargeItem()
+    local result = player:FullCharge(ActiveSlot.SLOT_PRIMARY, true) --Returns true if the item was fully charged, false otherwise
+    if result == false then
+        return responseCode.failure, "Item Already fully charged"
+    end
+    return responseCode.success
+end
+
+function ccMisc.UseItem()
+    local held_item = player:GetActiveItem()
+    if held_item ~= 0 then
+        player:UseActiveItem(held_item, true, false, false, false)
+        player:DischargeActiveItem()
+    else
+        return responseCode.failure, "No active item"
+    end
+    return responseCode.success
+end
 --When adding a new function add the mapping of Crowd control code to function here
 ccMisc.methods = {
     apply_random_curse = ccMisc.ApplyRandomCurse,
     random_tp = ccMisc.RandomTeleport,
     fart = ccMisc.Fart,
-    explode = ccMisc.Explode
+    explode = ccMisc.Explode,
+    charge_item = ccMisc.ChargeItem,
+    use_active_item = ccMisc.UseItem
 }
 
 return ccMisc;
