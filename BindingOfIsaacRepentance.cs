@@ -13,108 +13,113 @@ namespace CrowdControl.Games.Packs
 
 		public override ushort Port => 58430;
 
-		public BindingOfIsaacAfterbirthPlus(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { }
+		public BindingOfIsaacAfterbirthPlus(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { 
+		}
 
 		public override Game Game => new Game(60, "The Binding Of Isaac: Repentance", "BindingOfIsaacAfterbirthPlus", "PC", ConnectorType.SimpleTCPConnector);
 
 		// When adding new functions to the mod please add the new Crowd Control Effect here
 		//This is a display name mapped to a unique string. This is used to map the function from CC to Mod
-		public override List<Effect> Effects => new List<Effect>
-		{
-			new Effect("Add Heart Container", "add_heart_container"),
-			new Effect("Remove Heart Container", "remove_heart_container"),
-			new Effect("Damage Player", "damage_half_heart"),
-			new Effect("Heal Player", "heal_half_heart"),
-			new Effect("Teleport Player", "random_tp"),
-			new Effect("Apply A Random Curse", "apply_random_curse", "give_take_item"),
-			new Effect("Give Blue spider", "give_blue_spider", new[]{"amount50"}),
-			new Effect("Give Flies", "give_blue_flies", new[]{"amount50"}),
-			new Effect("Give Dips", "give_random_dip", new[]{"amount50"}),
-			new Effect("Charge Item", "charge_item"),
-			new Effect("Use Item", "use_active_item"),
-			new Effect("Fart!", "fart"),
-			new Effect("Explode!", "explode"),
-			new Effect("Invert Controls (1min)", "inverted_timed"),
-			new Effect("Invulnerable (30s)", "invulnerable_timed"),
-			new Effect("Retrovision (30s)", "pixelation_timed"),
-			new Effect("Flip the screen (30s)", "flipped_timed"),
-			new Effect("Flight (30s)", "flight_timed"),
+		public override List<Effect> Effects => new List<Effect> {
+
+			new Effect("Add Heart Container", "add_heart_container") {Price = 50, Description = "Add a red heart container"},
+			new Effect("Remove Heart Container", "remove_heart_container") {Price = 50, Description = "Remove a red heart container (can not remove last red heart container)"},
+			new Effect("Damage Player", "damage_half_heart") {Price = 30, Description = "Deal half a red heart of damage (will not kill player)"},
+			new Effect("Heal Player", "heal_half_heart") {Price = 20, Description = "Heal half a red heart of damage"},
+			new Effect("Teleport Player", "random_tp") {Price = 50, Description = "Teleport player to a random room, including secret rooms"},
+			new Effect("Give Blue spider", "give_blue_spider", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue spiders"},
+			new Effect("Give Flies", "give_blue_flies", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue flies"},
+			new Effect("Give Dips", "give_random_dip", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of random dips"},
+			new Effect("Charge Item", "charge_item") {Price = 25, Description = "Fully charge the current item!"},
+			new Effect("Use Item", "use_active_item") {Price = 50, Description = "Use the current active item and drain its charge!"},
+			new Effect("Fart!", "fart") {Price = 10, Description = "Oof, thats a smelly one"},
+			new Effect("Explode!", "explode") {Price = 10, Description = "Explosion (will not kill player)!"},
+
+			//Timed Effects Folder
+			new Effect("Timed Effects", "timed_effects", ItemKind.Folder),
+			new Effect("No HUD (1min)", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE!"},
+			new Effect("SUPER HOT (1min)", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT"},
+			new Effect("Invert Controls (1min)", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down?"},
+			new Effect("Invulnerable (30s)", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE!"},
+			new Effect("Retrovision (30s)", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console!"},
+			new Effect("Flip the screen (30s)", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2?"},
+			new Effect("Flight (30s)", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high!"},
 
 			//Stats folder
 			new Effect("Change Stats", "change_stats", ItemKind.Folder),
-			new Effect("Buff Random Stat", "add_stat", "change_stats"),
-			new Effect("Nerf Random Stat", "remove_stat", "change_stats"),
+			new Effect("Buff Random Stat", "add_stat", "change_stats") {Price = 30, Description = "Buff a random stat (Damage, Speed, Shot speed by 10%, Luck and Shot delay by 1)"},
+			new Effect("Nerf Random Stat", "remove_stat", "change_stats") {Price = 50, Description = "Nerf a random stat (Damage, Speed, Shot speed by 10%, Luck and Shot delay by 1)"},
 
 			//Trinket Folder
 			new Effect("Give/Take Trinket", "give_take_trinket", ItemKind.Folder),
-			new Effect("Give Random Trinket", "replace_trinket", "give_take_trinket"),
-			new Effect("Drop Trinket", "drop_trinket", "give_take_trinket"),
+			new Effect("Give Random Trinket", "replace_trinket", "give_take_trinket") {Price = 50, Description = "Give a random trinket (will drop current trinket on floor)"},
+			new Effect("Drop Trinket", "drop_trinket", "give_take_trinket") {Price = 30, Description = "Drop the current trinket onto te floor"},
 
 			//Give Take Consumeable Folder
-			new Effect("Give/Take Consumable", "give_take_consumable", ItemKind.Folder),
-			new Effect("Give Coin", "add_coin", new[]{"amount100"}, "give_take_consumeable"),
-			new Effect("Take Coin", "remove_coin", new[]{"amount100"}, "give_take_consumeable"),
-			new Effect("Give Bomb", "add_bomb", new[]{"amount100"}, "give_take_consumeable"),
-			new Effect("Take Bomb", "remove_bomb", new[]{"amount100"}, "give_take_consumeable"),
-			new Effect("Give Golden Bomb", "add_golden_bomb", "give_take_consumeable"),
-			new Effect("Take Golden Bomb", "remove_golden_bomb", "give_take_consumeable"),
-			new Effect("Give Key", "add_key", new[]{"amount100"}, "give_take_consumeable"),
-			new Effect("Take Key", "remove_key", new[]{"amount100"}, "give_take_consumeable"),
-			new Effect("Give Golden Key", "add_golden_key", "give_take_consumeable"),
-			new Effect("Take Golden Key", "remove_golden_key", "give_take_consumeable"),
-			new Effect("Add Gigabomb", "add_giga_bomb", "give_take_consumeable"),
-			new Effect("Take Gigabomb", "remove_giga_bomb", "give_take_consumeable"),
+			new Effect("Give/Take Consumable", "give_take_consumeable", ItemKind.Folder),
+			new Effect("Give Coin", "add_coin", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
+			new Effect("Take Coin", "remove_coin", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
+			new Effect("Give Bomb", "add_bomb", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
+			new Effect("Take Bomb", "remove_bomb", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
+			new Effect("Give Golden Bomb", "add_golden_bomb", "give_take_consumeable") {Price = 50, Description = "Unlimited bombs!"},
+			new Effect("Take Golden Bomb", "remove_golden_bomb", "give_take_consumeable") {Price = 50, Description = ""},
+			new Effect("Give Key", "add_key", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
+			new Effect("Take Key", "remove_key", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
+			new Effect("Give Golden Key", "add_golden_key", "give_take_consumeable") {Price = 50, Description = "Unlimited keys!"},
+			new Effect("Take Golden Key", "remove_golden_key", "give_take_consumeable") {Price = 50, Description = ""},
+			new Effect("Add Gigabomb", "add_giga_bomb", "give_take_consumeable") {Price = 50, Description = "Add a big boi bomb that blows up the floor!"},
+			new Effect("Take Gigabomb", "remove_giga_bomb", "give_take_consumeable") {Price = 50, Description = ""},
 
 			// Use Folder
 			new Effect("Use Item", "use_item", ItemKind.Folder),
 			//Consumeables
-			new Effect("Use Random Pill", "use_random_pill", "use_item"),
-			new Effect("Use Random Card", "use_random_card", "use_item"),
+			new Effect("Use Random Pill", "use_random_pill", "use_item") {Price = 50, Description = "Use a random pill"},
+			new Effect("Use Random Card", "use_random_card", "use_item") {Price = 50, Description = "Use a random card"},
 			// Dice
-			new Effect("Use D1", "use_d1", "use_item"),
-			new Effect("Use D4", "use_d4", "use_item"),
-			new Effect("Use D6", "use_d6", "use_item"),
-			new Effect("Use D7", "use_d7", "use_item"),
-			new Effect("Use D8", "use_d8", "use_item"),
-			new Effect("Use D10", "use_d10", "use_item"),
-			new Effect("Use D12", "use_d12", "use_item"),
-			new Effect("Use D20", "use_d20", "use_item"),
-			new Effect("Use D Infinity", "use_d_inf", "use_item"),
+			new Effect("Use D1", "use_d1", "use_item") {Price = 50, Description = "Duplicates 1 random pickup, trinket, or chest in the current room"},
+			new Effect("Use D4", "use_d4", "use_item") {Price = 100, Description = "Rerolls all items Isaac has into ones from the Treasure Room pool"},
+			new Effect("Use D6", "use_d6", "use_item") {Price = 50, Description = "Rerolls all items in the room (on pedestals and in shops) into other ones from the room's pool"},
+			new Effect("Use D7", "use_d7", "use_item") {Price = 50, Description = "Restarts the current room and will respawn all enemies. When used in a boss room it will teleport Isaac out of the room."},
+			new Effect("Use D8", "use_d8", "use_item") {Price = 50, Description = "Rerolls Isaac's damage, range, speed and tears values."},
+			new Effect("Use D12", "use_d12", "use_item") {Price = 50, Description = "Changes all enemies in the room into random ones."},
+			new Effect("Use D20", "use_d20", "use_item") {Price = 50, Description = "Randomises all pickups and chests in the room."},
+			new Effect("Use D Infinity", "use_d_inf", "use_item") {Price = 50, Description = "Acts like a random die."},
 			//Other Items
-			new Effect("Use Guppy's Head", "use_guppies_head", "use_item"),
-			new Effect("Use Guppy's Paw", "use_guppies_paw", "use_item"),
-			new Effect("Use Shovel", "use_shovel", "use_item"),
-			new Effect("Use Dad's Key", "use_dads_key", "use_item"),
-			new Effect("Use Clicker", "use_clicker", "use_item"),
-			new Effect("Use Pause", "use_pause", "use_item"),
-			new Effect("Use Mega Blast", "use_mega_blast", "use_item"),
-			new Effect("Use Mega Mush", "use_mega_mush", "use_item"),
-			new Effect("Use Forget Me Now", "use_forget_me_now", "use_item"),
-			new Effect("Use R Key", "use_r_key", "use_item"),
+			new Effect("Use Guppy's Head", "use_guppies_head", "use_item") {Price = 50, Description = "Spawns 2-4 friendly Blue Flies that damage enemies"},
+			new Effect("Use Guppy's Paw", "use_guppies_paw", "use_item") {Price = 50, Description = "Converts one Red Heart Container into three Soul Hearts. "},
+			new Effect("Use Shovel", "use_shovel", "use_item") {Price = 50, Description = "Spawns a  trapdoor to the next floor (can also spawn a crawlspace, containing an item)"},
+			new Effect("Use Dad's Key", "use_dads_key", "use_item") {Price = 50, Description = "Opens all doors in the room, including special doors."},
+			new Effect("Use Clicker", "use_clicker", "use_item") {Price = 100, Description = "Transforms Isaac into a random other character and removes one item"},
+			new Effect("Use Pause", "use_pause", "use_item") {Price = 50, Description = "Pauses all enemies in the room until Isaac fires a tear"},
+			new Effect("Use Mega Blast", "use_mega_blast", "use_item") {Price = 50, Description = "Shoots an incredibly powerful brimstone beam for 30 seconds"},
+			new Effect("Use Mega Mush", "use_mega_mush", "use_item") {Price = 50, Description = "ISAAC SMASH!"},
+			new Effect("Use Forget Me Now", "use_forget_me_now", "use_item") {Price = 100, Description = "Resets the current floor (will not remove items gained on the current floor)"},
+			new Effect("Use R Key", "use_r_key", "use_item") {Price = 150, Description = "Resets the entire run (will change the layouts and bosses. Does not remove items, will use forget me now with AB+)"},
 
 			//Give or Take Items folder
 			new Effect("Give/Take Item", "give_take_item", ItemKind.Folder),
-			new Effect("Give Random Item", "give_random_item", "give_take_item"),
-			new Effect("Give Missing No", "give_missing_no", "give_take_item"),
-			new Effect("Give Soy Milk", "give_soy_milk", "give_take_item"),
-			new Effect("Give The Mind", "give_the_mind", "give_take_item"),
-			new Effect("Give Brimstone", "give_brimstone", "give_take_item"),
-			new Effect("Give Mom's Knife", "give_knife", "give_take_item"),
-			new Effect("Give Polyphemus", "give_poly", "give_take_item"),
-			new Effect("Give Sacred Heart", "give_sacred_heart", "give_take_item"),
-			new Effect("Give 1UP!", "give_one_up", "give_take_item"),
-			new Effect("Take Random Item", "remove_random_item", "give_take_item"),
-			new Effect("Take Missing No", "remove_missing_no", "give_take_item"),
-			new Effect("Take Soy Milk", "remove_soy_milk", "give_take_item"),
-			new Effect("Take The Mind", "remove_the_mind", "give_take_item"),
-			new Effect("Take Brimstone", "remove_brimstone", "give_take_item"),
-			new Effect("Take Mom's Knife", "remove_knife", "give_take_item"),
-			new Effect("Take Polyphemus", "remove_poly", "give_take_item"),
-			new Effect("Take Sacred Heart", "remove_sacred_heart", "give_take_item"),
-			new Effect("Take 1UP!", "remove_one_up", "give_take_item")
+			new Effect("Apply A Random Curse", "apply_random_curse", "give_take_item") {Price = 50, Description = "Apply a random curse, like curse of Gamma Up!, the blind, the maze"},
+			new Effect("Give Random Item", "give_random_item", "give_take_item") {Price = 50, Description = "Give any random item (can give items not unlocked yet)"},
+			new Effect("Give Missing No", "give_missing_no", "give_take_item") {Price = 100, Description = "S\ny\nn\nt\na\nx\ne\nr\nr\no\nr"},
+			new Effect("Give Soy Milk", "give_soy_milk", "give_take_item") {Price = 50, Description = "DMG down + tears way up"},
+			new Effect("Give The Mind", "give_the_mind", "give_take_item") {Price = 50, Description = "I know all"},
+			new Effect("Give Brimstone", "give_brimstone", "give_take_item") {Price = 50, Description = "Blood laser barrage"},
+			new Effect("Give Mom's Knife", "give_knife", "give_take_item") {Price = 50, Description = "stab stab stab"},
+			new Effect("Give Polyphemus", "give_poly", "give_take_item") {Price = 50, Description = "Mega tears"},
+			new Effect("Give Sacred Heart", "give_sacred_heart", "give_take_item") {Price = 50, Description = "Homing shots + DMG up"},
+			new Effect("Give 1UP!", "give_one_up", "give_take_item") {Price = 100, Description = "Extra life"},
+			new Effect("Take Random Item", "remove_random_item", "give_take_item") {Price = 50, Description = "Remove a random item!"},
+			new Effect("Take Missing No", "remove_missing_no", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Soy Milk", "remove_soy_milk", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take The Mind", "remove_the_mind", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Brimstone", "remove_brimstone", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Mom's Knife", "remove_knife", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Polyphemus", "remove_poly", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Sacred Heart", "remove_sacred_heart", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take 1UP!", "remove_one_up", "give_take_item") {Price = 100, Description = ""}
 
 			//Effects not taken from an active item
-			//new Effect("Give/take Item", "give_take_item", ItemKind.Folder),
+			//new Effect("Give/take Item", "give_take_item", ItemKind.Folder) {Price = , Description = ""},
 		};
 
 		//Slider ranges need to be defined
@@ -123,5 +128,9 @@ namespace CrowdControl.Games.Packs
 			new ItemType("Amount", "amount100", ItemType.Subtype.Slider, "{\"min\":1,\"max\":99}"),
 			new ItemType("Amount", "amount50", ItemType.Subtype.Slider, "{\"min\":1,\"max\":50}")
 		});
+
+
 	}
+
+	
 }

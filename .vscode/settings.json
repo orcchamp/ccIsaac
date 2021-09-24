@@ -37,6 +37,7 @@
         "dump",
         "ActiveSlot",
         "pixelation_active",
-        "active_flight"
+        "active_flight",
+        "SeedEffect"
     ]
 }

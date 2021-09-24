@@ -2,6 +2,19 @@ local ccTimed = {}
 
 local responseCode = require("tcpResponseCode")
 
+function ccTimed.ActivateSeedEffect(effect)
+    if Game():GetSeeds():HasSeedEffect(effect) == true then
+        return responseCode.failure, "Effect already active"
+    end
+    Game():GetSeeds():AddSeedEffect(effect)
+    return responseCode.success
+end
+
+function ccTimed.EndSeedEffect(effect)
+    Game():GetSeeds():RemoveSeedEffect(SeedEffect.effect)
+    return responseCode.success
+end
+
 function ccTimed.GiveItem(item)
     if item == nil then
         return responseCode.failure, "Item does not exist"
@@ -15,28 +28,19 @@ function ccTimed.GiveItem(item)
 end
 
 function ccTimed.Invulnerable()
-    if invulnerable == true then
-        return responseCode.failure, "Effect already active"
-    end
-    invulnerable = true
-    return responseCode.success
+    return ccTimed.ActivateSeedEffect(SeedEffect.SEED_INVISIBLE_ISAAC)
 end
 
 function ccTimed.Invulnerable_end()
-    invulnerable = false
-    return responseCode.success
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_INVISIBLE_ISAAC)
 end
 
 function ccTimed.InverseControls()
-    if inverted_controls == true then
-        return responseCode.failure, "Effect already active"
-    end
-    inverted_controls = true
-    return responseCode.success
+    return ccTimed.ActivateSeedEffect(SeedEffect.SEED_CONTROLS_REVERSED)
 end
 
 function ccTimed.InverseControls_end()
-    inverted_controls = false
+    Game():GetSeeds():RemoveSeedEffect(SeedEffect.SEED_CONTROLS_REVERSED)
     return responseCode.success
 end
 
@@ -44,12 +48,19 @@ function ccTimed.Pixelation()
     if pixelation_active == true then
         return responseCode.failure, "Effect already active"
     end
-    Game():AddPixelation(300)
+    if SeedEffect.SEED_RETRO_VISION ~= nil then
+        Game():GetSeeds():AddSeedEffect(SeedEffect.SEED_RETRO_VISION)
+    else
+        Game():AddPixelation(300)
+    end
     pixelation_active = true
     return responseCode.success
 end
 
 function ccTimed.Pixelation_end()
+    if SeedEffect.SEED_RETRO_VISION ~= nil then
+        Game():GetSeeds():RemoveSeedEffect(SeedEffect.SEED_RETRO_VISION)
+    end
     pixelation_active = false
     return responseCode.success
 end
@@ -81,6 +92,32 @@ function ccTimed.flight_end()
     return responseCode.success
 end
 
+function ccTimed.SUPERHOT()
+    if Game():GetSeeds():HasSeedEffect(SeedEffect.SEED_SUPER_HOT) == true then
+        return responseCode.failure, "Effect already active"
+    end
+    if SeedEffect.SEED_SUPER_HOT ~= nil then
+        Game():GetSeeds():AddSeedEffect(SeedEffect.SEED_SUPER_HOT)
+    else
+        return responseCode.failure, "Can only be used with Repentance"
+    end
+
+    return responseCode.success
+end
+
+function ccTimed.SUPERHOT_end()
+    Game():GetSeeds():RemoveSeedEffect(SeedEffect.SEED_SUPER_HOT)
+    return responseCode.success
+end
+
+function ccTimed.NoHUD()
+    return ccTimed.ActivateSeedEffect(SeedEffect.SEED_NO_HUD)
+end
+
+function ccTimed.NoHUD_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_NO_HUD)
+end
+
 ccTimed.methods = {
     inverted_timed = ccTimed.InverseControls,
     inverted_timed_end = ccTimed.InverseControls_end,
@@ -91,7 +128,11 @@ ccTimed.methods = {
     flipped_timed = ccTimed.flipped,
     flipped_timed_end = ccTimed.flipped_end,
     flight_timed = ccTimed.flight,
-    flight_timed_end = ccTimed.flight_end
+    flight_timed_end = ccTimed.flight_end,
+    super_hot_timed = ccTimed.SUPERHOT,
+    super_hot_timed_end = ccTimed.SUPERHOT_end,
+    no_hud_timed = ccTimed.NoHUD,
+    no_hud_timed_end = ccTimed.NoHUD_end
 }
 
 return ccTimed

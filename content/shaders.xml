@@ -42,10 +42,8 @@
                     newTCoord.y = (RenderDataOut.y/RenderDataOut.w) - newTCoord.y;
                     newTCoord.x = (RenderDataOut.x/RenderDataOut.z) - newTCoord.x;
 				} 
-
-                vec4 Color = Color0 * texture2D(Texture0, newTCoord);
                 
-				gl_FragColor = Color;
+				gl_FragColor = Color0 * texture2D(Texture0, newTCoord);
 			}
         ]]></fragment>
     </shader>
