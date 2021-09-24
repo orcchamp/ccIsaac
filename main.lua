@@ -153,6 +153,8 @@ function ccIsaac:ParseMessages() --Function is called 30 times per second, and o
                         response["timeRemaining"] = duration
                         response["type"] = 0xFF
                     end
+                elseif method == "stop_all_effects" then
+                    return ccIsaac.EndAllEffects()
                 else
                     response["status"], response["message"] = methodmap[method]()
                 end
@@ -199,7 +201,6 @@ function ccIsaac:OnRender()
 end
 
 
-
 function ccIsaac:GetShaderParams(shaderName)
     if shaderName == 'Inverted' then
         if shaderAPI then
@@ -208,6 +209,18 @@ function ccIsaac:GetShaderParams(shaderName)
             return {inverted = shader_inverted};
         end
     end
+end
+
+function ccIsaac.EndAllEffects()
+    local answer
+    answer = ccTimed.NoHUD_end()
+    answer = ccTimed.flight_end()
+    answer = ccTimed.flipped_end()
+    answer = ccTimed.SUPERHOT_end()
+    answer = ccTimed.Pixelation_end()
+    answer = ccTimed.Invulnerable_end()
+    answer = ccTimed.InverseControls_end()
+    return answer --Yes this is a shit method, dont think about it
 end
 
 ccIsaac.Init()

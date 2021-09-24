@@ -11,7 +11,9 @@ function ccTimed.ActivateSeedEffect(effect)
 end
 
 function ccTimed.EndSeedEffect(effect)
-    Game():GetSeeds():RemoveSeedEffect(SeedEffect.effect)
+    if Game():GetSeeds():HasSeedEffect(effect) then
+        Game():GetSeeds():RemoveSeedEffect(effect)
+    end
     return responseCode.success
 end
 
@@ -40,35 +42,29 @@ function ccTimed.InverseControls()
 end
 
 function ccTimed.InverseControls_end()
-    Game():GetSeeds():RemoveSeedEffect(SeedEffect.SEED_CONTROLS_REVERSED)
-    return responseCode.success
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_CONTROLS_REVERSED)
 end
 
 function ccTimed.Pixelation()
-    if pixelation_active == true then
-        return responseCode.failure, "Effect already active"
-    end
     if SeedEffect.SEED_RETRO_VISION ~= nil then
-        Game():GetSeeds():AddSeedEffect(SeedEffect.SEED_RETRO_VISION)
+        pixelation_active = true
+        return ccTimed.ActivateSeedEffect(SeedEffect.SEED_RETRO_VISION)
     else
+        pixelation_active = true
         Game():AddPixelation(300)
     end
-    pixelation_active = true
     return responseCode.success
 end
 
 function ccTimed.Pixelation_end()
-    if SeedEffect.SEED_RETRO_VISION ~= nil then
-        Game():GetSeeds():RemoveSeedEffect(SeedEffect.SEED_RETRO_VISION)
-    end
     pixelation_active = false
+    if SeedEffect.SEED_RETRO_VISION ~= nil then
+        return ccTimed.EndSeedEffect(SeedEffect.SEED_RETRO_VISION)
+    end
     return responseCode.success
 end
 
 function ccTimed.flipped()
-    if shader_inverted == 1 then
-        return responseCode.failure, "Effect already active"
-    end
     shader_inverted = 1
     return responseCode.success
 end
@@ -93,11 +89,8 @@ function ccTimed.flight_end()
 end
 
 function ccTimed.SUPERHOT()
-    if Game():GetSeeds():HasSeedEffect(SeedEffect.SEED_SUPER_HOT) == true then
-        return responseCode.failure, "Effect already active"
-    end
     if SeedEffect.SEED_SUPER_HOT ~= nil then
-        Game():GetSeeds():AddSeedEffect(SeedEffect.SEED_SUPER_HOT)
+        return ccTimed.ActivateSeedEffect(SeedEffect.SEED_SUPER_HOT)
     else
         return responseCode.failure, "Can only be used with Repentance"
     end
@@ -106,8 +99,7 @@ function ccTimed.SUPERHOT()
 end
 
 function ccTimed.SUPERHOT_end()
-    Game():GetSeeds():RemoveSeedEffect(SeedEffect.SEED_SUPER_HOT)
-    return responseCode.success
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_SUPER_HOT)
 end
 
 function ccTimed.NoHUD()

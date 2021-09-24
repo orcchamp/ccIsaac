@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using CrowdControl.Common;
 using JetBrains.Annotations;
 using ConnectorType = CrowdControl.Common.ConnectorType;
+using Request = ConnectorLib.JSON.Request;
+using RequestType = ConnectorLib.JSON.RequestType;
 
 namespace CrowdControl.Games.Packs
 {
@@ -129,6 +131,13 @@ namespace CrowdControl.Games.Packs
 			new ItemType("Amount", "amount50", ItemType.Subtype.Slider, "{\"min\":1,\"max\":50}")
 		});
 
+		public override bool StopAllEffects() {
+    		return Connector.Send(new Request {
+				viewer = "SDK",
+				code = "stop_all_effects",
+				type = RequestType.Stop
+			});
+		}
 
 	}
 
