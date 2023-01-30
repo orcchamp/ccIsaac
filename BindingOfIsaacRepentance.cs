@@ -39,13 +39,13 @@ namespace CrowdControl.Games.Packs
 
 			//Timed Effects Folder
 			new Effect("Timed Effects", "timed_effects", ItemKind.Folder),
-			new Effect("No HUD", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE!"},
-			new Effect("SUPER HOT", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT"},
-			new Effect("Invert Controls", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down?"},
-			new Effect("Invulnerable", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE!"},
-			new Effect("Retrovision", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console!"},
-			new Effect("Flip the screen", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2?"},
-			new Effect("Flight", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high!"},
+			new Effect("No HUD", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE! Lasts 1 minute."},
+			new Effect("SUPER HOT", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT Lasts 1 minute."},
+			new Effect("Invert Controls", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down? Lasts 1 minute."},
+			new Effect("Invulnerable", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE! Lasts 30 seconds"},
+			new Effect("Retrovision", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console! Lasts 30 seconds"},
+			new Effect("Flip the screen", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2? Lasts 30 seconds"},
+			new Effect("Flight", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high! Lasts 30 seconds"},
 
 			//Stats folder
 			new Effect("Change Stats", "change_stats", ItemKind.Folder),
