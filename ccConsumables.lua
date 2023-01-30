@@ -7,7 +7,7 @@ function ccConsumables.AddHeartContainer()
     if player:GetMaxHearts() == 24 then
         return responseCode.failure, "Already At Max Hearts"
     end
-    player:AddMaxHearts(1)
+    player:AddMaxHearts(2)
     return responseCode.success
 end
 
@@ -15,7 +15,7 @@ function ccConsumables.RemoveHeartContainer()
     if player:GetMaxHearts() == 2 then
         return responseCode.failure, "Already At Min Hearts"
     end
-    player:AddMaxHearts(-1)
+    player:AddMaxHearts(-2)
     return responseCode.success
 end
 
