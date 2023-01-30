@@ -39,13 +39,13 @@ namespace CrowdControl.Games.Packs
 
 			//Timed Effects Folder
 			new Effect("Timed Effects", "timed_effects", ItemKind.Folder),
-			new Effect("No HUD (1min)", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE!"},
-			new Effect("SUPER HOT (1min)", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT"},
-			new Effect("Invert Controls (1min)", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down?"},
-			new Effect("Invulnerable (30s)", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE!"},
-			new Effect("Retrovision (30s)", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console!"},
-			new Effect("Flip the screen (30s)", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2?"},
-			new Effect("Flight (30s)", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high!"},
+			new Effect("No HUD", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE!"},
+			new Effect("SUPER HOT", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT"},
+			new Effect("Invert Controls", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down?"},
+			new Effect("Invulnerable", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE!"},
+			new Effect("Retrovision", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console!"},
+			new Effect("Flip the screen", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2?"},
+			new Effect("Flight", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high!"},
 
 			//Stats folder
 			new Effect("Change Stats", "change_stats", ItemKind.Folder),
@@ -97,6 +97,13 @@ namespace CrowdControl.Games.Packs
 			new Effect("Use Mega Mush", "use_mega_mush", "use_item") {Price = 50, Description = "ISAAC SMASH!"},
 			new Effect("Use Forget Me Now", "use_forget_me_now", "use_item") {Price = 100, Description = "Resets the current floor (will not remove items gained on the current floor)"},
 			new Effect("Use R Key", "use_r_key", "use_item") {Price = 150, Description = "Resets the entire run (will change the layouts and bosses. Does not remove items, will use forget me now with AB+)"},
+			new Effect("Use Mystery Gift", "use_mystery_gift", "use_item") {Price = 50, Description = "Spawns an item pedstal."},
+			new Effect("Use Diplopia ", "use_diplopia", "use_item") {Price = 150, Description = "Duplicates all pickups and item pedestals in the room."},
+			new Effect("Use Box of Friends", "use_box_of_friends", "use_item") {Price = 25, Description = "Duplicates all of Isaac's familiars for the current room."},
+			new Effect("Use Smelter", "use_smelter", "use_item") {Price = 100, Description = "Consumes Isaac's currently held trinket and applies its effect permanently."},
+			new Effect("Use Sacrificial Altar", "use_sacrificial_altar", "use_item") {Price = 150, Description = "Sacrifices up to 2 familiars and spawns an item for each familiar sacrificed. Converts all friendly spiders and flies into coins."},
+			new Effect("Use Dull Razor", "use_dull_razor", "use_item") {Price = 50, Description = "Hurts Isaac without depleting health, activating any items that trigger upon taking damage."},
+			new Effect("Use Wavy Cap", "use_wavy_cap", "use_item") {Price = 150, Description = "Increases fire rate, decreases speed, and distorts the screen. All effects become more pronounced with repeated use, and wear off by clearing rooms."},
 
 			//Give or Take Items folder
 			new Effect("Give/Take Item", "give_take_item", ItemKind.Folder),
