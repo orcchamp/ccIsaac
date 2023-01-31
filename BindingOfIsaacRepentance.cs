@@ -1,145 +1,209 @@
-using System;
-using System.Collections.Generic;
-using CrowdControl.Common;
-using JetBrains.Annotations;
-using ConnectorType = CrowdControl.Common.ConnectorType;
-using Request = ConnectorLib.JSON.Request;
-using RequestType = ConnectorLib.JSON.RequestType;
+local ccConsumables = {}
 
-namespace CrowdControl.Games.Packs
-{
-	[UsedImplicitly]
-	public class BindingOfIsaacAfterbirthPlus : SimpleTCPPack
-	{
-		public override string Host => "127.0.0.1";
 
-		public override ushort Port => 58430;
+local responseCode = require("tcpResponseCode")
 
-		public BindingOfIsaacAfterbirthPlus(IPlayer player, Func<CrowdControlBlock, bool> responseHandler, Action<object> statusUpdateHandler) : base(player, responseHandler, statusUpdateHandler) { 
-		}
+function ccConsumables.AddHeartContainer()
+    if player:GetMaxHearts() == 24 then
+        return responseCode.failure, "Already At Max Hearts"
+    end
+    player:AddMaxHearts(2)
+    return responseCode.success
+end
 
-		public override Game Game => new Game(60, "The Binding Of Isaac: Repentance", "BindingOfIsaacAfterbirthPlus", "PC", ConnectorType.SimpleTCPConnector);
+function ccConsumables.RemoveHeartContainer()
+    if player:GetMaxHearts() == 2 then
+        return responseCode.failure, "Already At Min Hearts"
+    end
+    player:AddMaxHearts(-2)
+    return responseCode.success
+end
 
-		// When adding new functions to the mod please add the new Crowd Control Effect here
-		//This is a display name mapped to a unique string. This is used to map the function from CC to Mod
-		public override List<Effect> Effects => new List<Effect> {
+function ccConsumables.HealHalfHeart()
+    if player:GetHearts() >= player:GetMaxHearts() then
+        return responseCode.failure, "Already At Full Health"
+    end
+    player:AddHearts(1)
+    return responseCode.success
+end
 
-			new Effect("Add Heart Container", "add_heart_container") {Price = 50, Description = "Add a red heart container"},
-			new Effect("Remove Heart Container", "remove_heart_container") {Price = 50, Description = "Remove a red heart container (can not remove last red heart container)"},
-			new Effect("Damage Player", "damage_half_heart") {Price = 30, Description = "Deal half a red heart of damage (will not kill player)"},
-			new Effect("Heal Player", "heal_half_heart") {Price = 20, Description = "Heal half a red heart of damage"},
-			new Effect("Teleport Player", "random_tp") {Price = 50, Description = "Teleport player to a random room, including secret rooms"},
-			new Effect("Give Blue spider", "give_blue_spider", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue spiders"},
-			new Effect("Give Flies", "give_blue_flies", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue flies"},
-			new Effect("Give Dips", "give_random_dip", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of random dips"},
-			new Effect("Charge Item", "charge_item") {Price = 25, Description = "Fully charge the current item!"},
-			new Effect("Use Item", "use_active_item") {Price = 50, Description = "Use the current active item and drain its charge!"},
-			new Effect("Fart!", "fart") {Price = 10, Description = "Oof, thats a smelly one"},
-			new Effect("Explode!", "explode") {Price = 10, Description = "Explosion (will not kill player)!"},
+function ccConsumables.DamageHalfHeart()
+	if player:GetHearts() == 1 then
+	    return responseCode.failure, "Already At Min Hearts"
+    end
+    player:TakeDamage(1, DamageFlag.DAMAGE_RED_HEARTS, EntityRef(player), 0)
+    return responseCode.success
+end
 
-			//Timed Effects Folder
-			new Effect("Timed Effects", "timed_effects", ItemKind.Folder),
-			new Effect("No HUD (1min)", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE!"},
-			new Effect("SUPER HOT (1min)", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT"},
-			new Effect("Invert Controls (1min)", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down?"},
-			new Effect("Invulnerable (30s)", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE!"},
-			new Effect("Retrovision (30s)", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console!"},
-			new Effect("Flip the screen (30s)", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2?"},
-			new Effect("Flight (30s)", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high!"},
+function ccConsumables.AddCoin(numberOfCoins)
+    numberOfCoins = numberOfCoins or 1
+    if player:GetNumCoins() >= 99 then
+        return responseCode.failure, "Already At Full Coins"
+    end
+    player:AddCoins(numberOfCoins)
+    return responseCode.success
+end
 
-			//Stats folder
-			new Effect("Change Stats", "change_stats", ItemKind.Folder),
-			new Effect("Buff Random Stat", "add_stat", "change_stats") {Price = 30, Description = "Buff a random stat (Damage, Speed, Shot speed by 10%, Luck and Shot delay by 1)"},
-			new Effect("Nerf Random Stat", "remove_stat", "change_stats") {Price = 50, Description = "Nerf a random stat (Damage, Speed, Shot speed by 10%, Luck and Shot delay by 1)"},
+function ccConsumables.RemoveCoin(numberOfCoins)
+    numberOfCoins = numberOfCoins or 1
+    if player:GetNumCoins() <= 0 then
+        return responseCode.failure, "Already At Min Coins"
+    end
+	if player:GetNumCoins() < numberOfCoins then
+		return responseCode.failure, "Does Not Have Enough Coins"
+    end
+    player:AddCoins(-numberOfCoins);
+    return responseCode.success
+end
 
-			//Trinket Folder
-			new Effect("Give/Take Trinket", "give_take_trinket", ItemKind.Folder),
-			new Effect("Give Random Trinket", "replace_trinket", "give_take_trinket") {Price = 50, Description = "Give a random trinket (will drop current trinket on floor)"},
-			new Effect("Drop Trinket", "drop_trinket", "give_take_trinket") {Price = 30, Description = "Drop the current trinket onto te floor"},
+function ccConsumables.AddBomb(numberOfBombs)
+    numberOfBombs = numberOfBombs or 1
+    if player:GetNumBombs() >= 99 then
+        return responseCode.failure, "Already At Full Bombs"
+    end
+    player:AddBombs(numberOfBombs)
+    return responseCode.success
+end
 
-			//Give Take Consumeable Folder
-			new Effect("Give/Take Consumable", "give_take_consumeable", ItemKind.Folder),
-			new Effect("Give Coin", "add_coin", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
-			new Effect("Take Coin", "remove_coin", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
-			new Effect("Give Bomb", "add_bomb", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
-			new Effect("Take Bomb", "remove_bomb", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
-			new Effect("Give Golden Bomb", "add_golden_bomb", "give_take_consumeable") {Price = 50, Description = "Unlimited bombs!"},
-			new Effect("Take Golden Bomb", "remove_golden_bomb", "give_take_consumeable") {Price = 50, Description = ""},
-			new Effect("Give Key", "add_key", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
-			new Effect("Take Key", "remove_key", new[]{"amount100"}, "give_take_consumeable") {Price = 5, Description = ""},
-			new Effect("Give Golden Key", "add_golden_key", "give_take_consumeable") {Price = 50, Description = "Unlimited keys!"},
-			new Effect("Take Golden Key", "remove_golden_key", "give_take_consumeable") {Price = 50, Description = ""},
-			new Effect("Add Gigabomb", "add_giga_bomb", "give_take_consumeable") {Price = 50, Description = "Add a big boi bomb that blows up the floor!"},
-			new Effect("Take Gigabomb", "remove_giga_bomb", "give_take_consumeable") {Price = 50, Description = ""},
+function ccConsumables.RemoveBomb(numberOfBombs)
+    numberOfBombs = numberOfBombs or 1
+    if player:GetNumBombs() <= 0 then
+        return responseCode.failure, "Already At Min Bombs"
+    end
+	if player:GetNumBombs() < numberOfBombs then
+		return responseCode.failure, "Does Not Have Enough Bombs"
+    end
+    player:AddBombs(-numberOfBombs)
+    return responseCode.success
+end
 
-			// Use Folder
-			new Effect("Use Item", "use_item", ItemKind.Folder),
-			//Consumeables
-			new Effect("Use Random Pill", "use_random_pill", "use_item") {Price = 50, Description = "Use a random pill"},
-			new Effect("Use Random Card", "use_random_card", "use_item") {Price = 50, Description = "Use a random card"},
-			// Dice
-			new Effect("Use D1", "use_d1", "use_item") {Price = 50, Description = "Duplicates 1 random pickup, trinket, or chest in the current room"},
-			new Effect("Use D4", "use_d4", "use_item") {Price = 100, Description = "Rerolls all items Isaac has into ones from the Treasure Room pool"},
-			new Effect("Use D6", "use_d6", "use_item") {Price = 50, Description = "Rerolls all items in the room (on pedestals and in shops) into other ones from the room's pool"},
-			new Effect("Use D7", "use_d7", "use_item") {Price = 50, Description = "Restarts the current room and will respawn all enemies. When used in a boss room it will teleport Isaac out of the room."},
-			new Effect("Use D8", "use_d8", "use_item") {Price = 50, Description = "Rerolls Isaac's damage, range, speed and tears values."},
-			new Effect("Use D12", "use_d12", "use_item") {Price = 50, Description = "Changes all enemies in the room into random ones."},
-			new Effect("Use D20", "use_d20", "use_item") {Price = 50, Description = "Randomises all pickups and chests in the room."},
-			new Effect("Use D Infinity", "use_d_inf", "use_item") {Price = 50, Description = "Acts like a random die."},
-			//Other Items
-			new Effect("Use Guppy's Head", "use_guppies_head", "use_item") {Price = 50, Description = "Spawns 2-4 friendly Blue Flies that damage enemies"},
-			new Effect("Use Guppy's Paw", "use_guppies_paw", "use_item") {Price = 50, Description = "Converts one Red Heart Container into three Soul Hearts. "},
-			new Effect("Use Shovel", "use_shovel", "use_item") {Price = 50, Description = "Spawns a  trapdoor to the next floor (can also spawn a crawlspace, containing an item)"},
-			new Effect("Use Dad's Key", "use_dads_key", "use_item") {Price = 50, Description = "Opens all doors in the room, including special doors."},
-			new Effect("Use Clicker", "use_clicker", "use_item") {Price = 100, Description = "Transforms Isaac into a random other character and removes one item"},
-			new Effect("Use Pause", "use_pause", "use_item") {Price = 50, Description = "Pauses all enemies in the room until Isaac fires a tear"},
-			new Effect("Use Mega Blast", "use_mega_blast", "use_item") {Price = 50, Description = "Shoots an incredibly powerful brimstone beam for 30 seconds"},
-			new Effect("Use Mega Mush", "use_mega_mush", "use_item") {Price = 50, Description = "ISAAC SMASH!"},
-			new Effect("Use Forget Me Now", "use_forget_me_now", "use_item") {Price = 100, Description = "Resets the current floor (will not remove items gained on the current floor)"},
-			new Effect("Use R Key", "use_r_key", "use_item") {Price = 150, Description = "Resets the entire run (will change the layouts and bosses. Does not remove items, will use forget me now with AB+)"},
+function ccConsumables.AddGoldenBomb()
+    if player:HasGoldenBomb() then
+        return responseCode.failure, "Already Has A Golden Bomb"
+    end
+    player:AddGoldenBomb()
+    return responseCode.success
+end
 
-			//Give or Take Items folder
-			new Effect("Give/Take Item", "give_take_item", ItemKind.Folder),
-			new Effect("Apply A Random Curse", "apply_random_curse", "give_take_item") {Price = 50, Description = "Apply a random curse, like curse of Gamma Up!, the blind, the maze"},
-			new Effect("Give Random Item", "give_random_item", "give_take_item") {Price = 50, Description = "Give any random item (can give items not unlocked yet)"},
-			new Effect("Give Missing No", "give_missing_no", "give_take_item") {Price = 100, Description = "S\ny\nn\nt\na\nx\ne\nr\nr\no\nr"},
-			new Effect("Give Soy Milk", "give_soy_milk", "give_take_item") {Price = 50, Description = "DMG down + tears way up"},
-			new Effect("Give The Mind", "give_the_mind", "give_take_item") {Price = 50, Description = "I know all"},
-			new Effect("Give Brimstone", "give_brimstone", "give_take_item") {Price = 50, Description = "Blood laser barrage"},
-			new Effect("Give Mom's Knife", "give_knife", "give_take_item") {Price = 50, Description = "stab stab stab"},
-			new Effect("Give Polyphemus", "give_poly", "give_take_item") {Price = 50, Description = "Mega tears"},
-			new Effect("Give Sacred Heart", "give_sacred_heart", "give_take_item") {Price = 50, Description = "Homing shots + DMG up"},
-			new Effect("Give 1UP!", "give_one_up", "give_take_item") {Price = 100, Description = "Extra life"},
-			new Effect("Take Random Item", "remove_random_item", "give_take_item") {Price = 50, Description = "Remove a random item!"},
-			new Effect("Take Missing No", "remove_missing_no", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take Soy Milk", "remove_soy_milk", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take The Mind", "remove_the_mind", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take Brimstone", "remove_brimstone", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take Mom's Knife", "remove_knife", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take Polyphemus", "remove_poly", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take Sacred Heart", "remove_sacred_heart", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take 1UP!", "remove_one_up", "give_take_item") {Price = 100, Description = ""}
+function ccConsumables.RemoveGoldenBomb()
+    if not player:HasGoldenBomb() then
+        return responseCode.failure, "Doesn't Have A Golden Bomb"
+    end
+    player:RemoveGoldenBomb()
+    return responseCode.success
+end
 
-			//Effects not taken from an active item
-			//new Effect("Give/take Item", "give_take_item", ItemKind.Folder) {Price = , Description = ""},
-		};
+function ccConsumables.AddKey(numberofKeys)
+    numberofKeys = numberofKeys or 1
+    if player:GetNumKeys() >= 99 then
+        return responseCode.failure, "Already At Full Keys"
+    end
+    player:AddKeys(numberofKeys)
+    return responseCode.success
+end
 
-		//Slider ranges need to be defined
-		public override List<ItemType> ItemTypes => new List<ItemType>(new[]
-		{
-			new ItemType("Amount", "amount100", ItemType.Subtype.Slider, "{\"min\":1,\"max\":99}"),
-			new ItemType("Amount", "amount50", ItemType.Subtype.Slider, "{\"min\":1,\"max\":50}")
-		});
+function ccConsumables.RemoveKey(numberofKeys)
+    numberofKeys = numberofKeys or 1
+    if player:GetNumKeys() <= 0 then
+        return responseCode.failure, "Already At Min Keys"
+    end
+	if player:GetNumKeys() < numberofKeys then
+		return responseCode.failure, "Does Not Have Enough Keys"
+    end
+    player:AddKeys(-numberofKeys)
+    return responseCode.success
+end
 
-		public override bool StopAllEffects() {
-    		return Connector.Send(new Request {
-				viewer = "SDK",
-				code = "stop_all_effects",
-				type = RequestType.Stop
-			});
-		}
+function ccConsumables.AddGoldenKey()
+    if player:HasGoldenKey() then
+        return responseCode.failure, "Already Has A Golden Key"
+    end
+    player:AddGoldenKey()
+    return responseCode.success
+end
 
-	}
+function ccConsumables.RemoveGoldenKey()
+    if not player:HasGoldenKey() then
+        return responseCode.failure, "Doesn't Have A Golden Key"
+    end
+    player:RemoveGoldenKey()
+    return responseCode.success
+end
 
-	
+function ccConsumables.UseRandomCard()
+    player:UseCard(1 + rng:RandomInt(Card.NUM_CARDS))
+    return responseCode.success
+end
+
+function ccConsumables.UseRandomPill()
+    player:UsePill(1 + rng:RandomInt(PillEffect.NUM_PILL_EFFECTS), 1 + rng:RandomInt(PillColor.NUM_PILLS))
+    return responseCode.success
+end
+
+-- New
+function ccConsumables.AddFlies(numberofFlies)
+    player:AddBlueFlies(numberofFlies, player.Position, player)
+    return responseCode.success
+end
+
+function ccConsumables.AddSpiders(numberofSpiders)
+    for i=1,numberofSpiders do player:AddBlueSpider(player.Position) end
+    return responseCode.success
+end
+
+function ccConsumables.AddDips(numberofDips)
+    local dipTypes = {0, 1, 2, 3, 4, 5, 6, 12, 13, 14, 20}
+    for i=1,numberofDips do player:AddFriendlyDip(dipTypes[1 + rng:RandomInt(11)], player.Position) end
+    return responseCode.success
+end
+
+function ccConsumables.AddGigabomb()
+    if player:GetNumBombs() >= 99 then
+        return responseCode.failure, "Already At Full Bombs"
+    end
+    player:AddBombs(1)
+    player:AddGigaBombs(1)
+    return responseCode.success
+end
+
+function ccConsumables.RemoveGigabomb()
+    if player:GetNumGigaBombs() <= 0 then
+        return responseCode.failure, "Already At Min Gigabombs"
+    end
+    player:AddBombs(-1)
+    player:AddGigaBombs(-1)
+    return responseCode.success
+end
+
+
+--When adding a new function add the mapping of Crowd control code to function here
+ccConsumables.methods = {
+    add_heart_container = ccConsumables.AddHeartContainer,
+    remove_heart_container = ccConsumables.RemoveHeartContainer,
+    damage_half_heart = ccConsumables.DamageHalfHeart,
+    heal_half_heart = ccConsumables.HealHalfHeart,
+
+    add_coin = ccConsumables.AddCoin,
+    remove_coin = ccConsumables.RemoveCoin,
+    add_bomb = ccConsumables.AddBomb,
+    remove_bomb = ccConsumables.RemoveBomb,
+    add_key = ccConsumables.AddKey,
+    remove_key = ccConsumables.RemoveKey,
+    add_golden_bomb = ccConsumables.AddGoldenBomb,
+    remove_golden_bomb = ccConsumables.RemoveGoldenBomb,
+    add_golden_key = ccConsumables.AddGoldenKey,
+    remove_golden_key = ccConsumables.RemoveGoldenKey,
+
+    use_random_card = ccConsumables.UseRandomCard,
+    use_random_pill = ccConsumables.UseRandomPill,
+
+	give_blue_flies = ccConsumables.AddFlies,
+	give_blue_spider = ccConsumables.AddSpiders,
+    give_random_dip = ccConsumables.AddDips,
+
+    add_giga_bomb = ccConsumables.AddGigabomb,
+    remove_giga_bomb = ccConsumables.RemoveGigabomb
 }
+
+return ccConsumables
+
