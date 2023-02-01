@@ -2,7 +2,7 @@ local ccConsumables = {}
 
 
 local responseCode = require("tcpResponseCode")
-
+--Increased the amount to a full heart container as it is confusing for players to have a half empty heart container they can't fill
 function ccConsumables.AddHeartContainer()
     if player:GetMaxHearts() == 24 then
         return responseCode.failure, "Already At Max Hearts"
@@ -24,6 +24,14 @@ function ccConsumables.HealHalfHeart()
         return responseCode.failure, "Already At Full Health"
     end
     player:AddHearts(1)
+    return responseCode.success
+end
+--added extra hearts just in case they are playing maggy with birthright
+function ccConsumables.HealFull()
+    if player:GetHearts() >= player:GetMaxHearts() then
+        return responseCode.failure, "Already At Full Health"
+    end
+    player:AddHearts(36)
     return responseCode.success
 end
 
@@ -182,6 +190,7 @@ ccConsumables.methods = {
     remove_heart_container = ccConsumables.RemoveHeartContainer,
     damage_half_heart = ccConsumables.DamageHalfHeart,
     heal_half_heart = ccConsumables.HealHalfHeart,
+    heal_full = ccConsumables.HealFull,
 
     add_coin = ccConsumables.AddCoin,
     remove_coin = ccConsumables.RemoveCoin,

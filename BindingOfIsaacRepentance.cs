@@ -28,6 +28,7 @@ namespace CrowdControl.Games.Packs
 			new Effect("Remove Heart Container", "remove_heart_container") {Price = 50, Description = "Remove a red heart container (can not remove last red heart container)"},
 			new Effect("Damage Player", "damage_half_heart") {Price = 30, Description = "Deal half a red heart of damage (will not kill player)"},
 			new Effect("Heal Player", "heal_half_heart") {Price = 20, Description = "Heal half a red heart of damage"},
+			new Effect("Full Heal Player", "heal_full") {Price = 100, Description = "Fills all empty red hearts"},
 			new Effect("Teleport Player", "random_tp") {Price = 50, Description = "Teleport player to a random room, including secret rooms"},
 			new Effect("Give Blue spider", "give_blue_spider", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue spiders"},
 			new Effect("Give Flies", "give_blue_flies", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue flies"},
@@ -40,12 +41,12 @@ namespace CrowdControl.Games.Packs
 			//Timed Effects Folder
 			new Effect("Timed Effects", "timed_effects", ItemKind.Folder),
 			new Effect("No HUD", "no_hud_timed", "timed_effects") {Price = 50, Description = "I CAN'T SEE! Lasts 1 minute."},
-			new Effect("SUPER HOT", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT Lasts 1 minute."},
-			new Effect("Invert Controls", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down? Lasts 1 minute."},
-			new Effect("Invulnerable", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE! Lasts 30 seconds"},
-			new Effect("Retrovision", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console! Lasts 30 seconds"},
-			new Effect("Flip the screen", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2? Lasts 30 seconds"},
-			new Effect("Flight", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high! Lasts 30 seconds"},
+			new Effect("SUPER HOT", "super_hot_timed", "timed_effects") {Price = 50, Description = "SUPER HOT SUPER HOT SUPER HOT SUPER HOT SUPER HOT (Lasts 1 minute)"},
+			new Effect("Invert Controls", "inverted_timed", "timed_effects") {Price = 50, Description = "What is up and what is down? (Lasts 1 minute)"},
+			new Effect("Invulnerable", "invulnerable_timed", "timed_effects") {Price = 50, Description = "I AM INVINCIBLE! (Lasts 30 seconds)"},
+			new Effect("Retrovision", "pixelation_timed", "timed_effects") {Price = 50, Description = "We all know the CD-i was the best console! (Lasts 30 seconds)"},
+			new Effect("Flip the screen", "flipped_timed", "timed_effects") {Price = 50, Description = "What is up and what is down *2? (Lasts 30 seconds)"},
+			new Effect("Flight", "flight_timed", "timed_effects") {Price = 50, Description = "Fly so high! (Lasts 30 seconds)"},
 
 			//Stats folder
 			new Effect("Change Stats", "change_stats", ItemKind.Folder),
@@ -104,6 +105,7 @@ namespace CrowdControl.Games.Packs
 			new Effect("Use Sacrificial Altar", "use_sacrificial_altar", "use_item") {Price = 150, Description = "Sacrifices up to 2 familiars and spawns an item for each familiar sacrificed. Converts all friendly spiders and flies into coins."},
 			new Effect("Use Dull Razor", "use_dull_razor", "use_item") {Price = 50, Description = "Hurts Isaac without depleting health, activating any items that trigger upon taking damage."},
 			new Effect("Use Wavy Cap", "use_wavy_cap", "use_item") {Price = 150, Description = "Increases fire rate, decreases speed, and distorts the screen. All effects become more pronounced with repeated use, and wear off by clearing rooms."},
+			new Effect("Use Sprinkler", "use_sprinkler", "use_item") {Price = 50, Description = "Sentry going up"},
 
 			//Give or Take Items folder
 			new Effect("Give/Take Item", "give_take_item", ItemKind.Folder),
@@ -117,6 +119,19 @@ namespace CrowdControl.Games.Packs
 			new Effect("Give Polyphemus", "give_poly", "give_take_item") {Price = 50, Description = "Mega tears"},
 			new Effect("Give Sacred Heart", "give_sacred_heart", "give_take_item") {Price = 50, Description = "Homing shots + DMG up"},
 			new Effect("Give 1UP!", "give_one_up", "give_take_item") {Price = 100, Description = "Extra life"},
+			new Effect("Give Rock Bottom", "give_rock_bottom", "give_take_item") {Price = 100, Description = "It's only up from there"},
+			new Effect("Give Black Candle", "give_black_candle", "give_take_item") {Price = 50, Description = "Curse immunity + evil up "},
+			new Effect("Give Curse Of The Tower", "give_curse_of_the_tower", "give_take_item") {Price = 100, Description = "Embrace chaos"},
+			new Effect("Give Tiny Planet", "give_tiny_planet", "give_take_item") {Price = 100, Description = "Orbiting tears + range up"},
+			new Effect("Give Chaos", "give_chaos", "give_take_item") {Price = 100, Description = "!!!"},
+			new Effect("Give Ipecac", "give_ipecac", "give_take_item") {Price = 100, Description = "Explosive shots"},
+			new Effect("Give Host Hat", "give_host_hat", "give_take_item") {Price = 50, Description = "Blast resistance"},
+			new Effect("Give The Wiz", "give_the_wiz", "give_take_item") {Price = 150, Description = "Double Wiz shot!"},
+			new Effect("Give Deep Pockets", "give_deep_pockets", "give_take_item") {Price = 50, Description = "More money!"},
+			new Effect("Give Birth Right", "give_birth_right", "give_take_item") {Price = 50, Description = "???"},
+			new Effect("Give C Section", "give_c_section", "give_take_item") {Price = 50, Description = "Fetus shots"},
+			new Effect("Give Bozo", "give_bozo", "give_take_item") {Price = 150, Description = "Party time!"},
+			new Effect("Give God Head", "give_god_head", "give_take_item") {Price = 50, Description = "God Head"},
 			new Effect("Take Random Item", "remove_random_item", "give_take_item") {Price = 50, Description = "Remove a random item!"},
 			new Effect("Take Missing No", "remove_missing_no", "give_take_item") {Price = 50, Description = ""},
 			new Effect("Take Soy Milk", "remove_soy_milk", "give_take_item") {Price = 50, Description = ""},
@@ -125,7 +140,22 @@ namespace CrowdControl.Games.Packs
 			new Effect("Take Mom's Knife", "remove_knife", "give_take_item") {Price = 50, Description = ""},
 			new Effect("Take Polyphemus", "remove_poly", "give_take_item") {Price = 50, Description = ""},
 			new Effect("Take Sacred Heart", "remove_sacred_heart", "give_take_item") {Price = 50, Description = ""},
-			new Effect("Take 1UP!", "remove_one_up", "give_take_item") {Price = 100, Description = ""}
+			new Effect("Take 1UP!", "remove_one_up", "give_take_item") {Price = 100, Description = ""},
+			new Effect("Take Rock Bottom", "remove_rock_bottom", "give_take_item") {Price = 150, Description = ""},
+			new Effect("Take Black Candle", "remove_black_candle", "give_take_item") {Price = 150, Description = ""},
+			new Effect("Take curse of the tower", "remove_curse_of_the_tower", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Tiny Planet", "remove_tiny_planet", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take chaos", "remove_chaos", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Ipecac", "remove_ipecac", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Host Hat", "remove_host_hat", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take The Wiz", "remove_the_wiz", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Deep Pockets", "remove_deep_pockets", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Birth Right", "remove_birth_right", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take C Section", "remove_c_section", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take Bozo", "remove_bozo", "give_take_item") {Price = 50, Description = ""},
+			new Effect("Take God Head", "remove_god_head", "give_take_item") {Price = 50, Description = ""},
+
+			
 
 			//Effects not taken from an active item
 			//new Effect("Give/take Item", "give_take_item", ItemKind.Folder) {Price = , Description = ""},

@@ -74,17 +74,18 @@ function ccTimed.flipped_end()
     return responseCode.success
 end
 
+--I just think this looks cooler thats it
 function ccTimed.flight()
     active_flight = true
-    return ccTimed.GiveItem(CollectibleType.COLLECTIBLE_TRANSCENDENCE)
+    return ccTimed.GiveItem(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
 end
 
 function ccTimed.flight_end()
     active_flight = false
-    if not player:HasCollectible(CollectibleType.COLLECTIBLE_TRANSCENDENCE) then
+    if not player:HasCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT) then
         return responseCode.success --Failure, but success? somehow?
     end
-    player:RemoveCollectible(CollectibleType.COLLECTIBLE_TRANSCENDENCE)
+    player:RemoveCollectible(CollectibleType.COLLECTIBLE_LORD_OF_THE_PIT)
     return responseCode.success
 end
 
