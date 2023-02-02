@@ -273,6 +273,14 @@ function ccItems.RemoveGodHead()
 	end
 end
 
+function ccItems.GiveCursedEeye()
+    return ccItems.GiveItem(CollectibleType.COLLECTIBLE_CURSED_EYE)
+end
+
+function ccItems.RemoveCursedEye()
+    return ccItems.TakeItem(CollectibleType.COLLECTIBLE_CURSED_EYE)
+end
+
 
 --When adding a new function add the mapping of Crowd control code to function here
 ccItems.methods = {
@@ -320,6 +328,8 @@ ccItems.methods = {
     remove_bozo = ccItems.RemoveBozo,
     give_god_head = ccItems.GiveGodHead,
     remove_god_head = ccItems.RemoveGodHead,
+    give_cursed_eye = ccItems.GiveCursedEeye,
+    remove_cursed_eye = ccItems.RemoveCursedEye
 }
 
 return ccItems
