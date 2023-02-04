@@ -10,8 +10,7 @@ function ccItems.GiveItem(item)
     if player:HasCollectible(item) then
         return responseCode.failure, "User Already Has Item"
     end
-	--player:QueueItem(Isaac.GetItemConfig():GetCollectible(item))
-	--player:AnimateCollectible(item, "Pickup", "PlayerPickupSparkle")
+	player:AnimateCollectible(item, "Pickup", "PlayerPickupSparkle")
     player:AddCollectible(item, 0, true)
 	
     return responseCode.success

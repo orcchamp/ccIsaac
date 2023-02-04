@@ -151,7 +151,7 @@ function ccIsaac:ParseMessages() --Function is called 30 times per second, and o
                         timed_effects[method] = {duration, partialAsTable["id"]} --Set duration
                                 
                         response["timeRemaining"] = duration
-                        response["type"] = 0xFF
+                        response["type"] = 0x00
                     end
                 elseif method == "stop_all_effects" then
                     return ccIsaac.EndAllEffects()

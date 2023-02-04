@@ -6,8 +6,9 @@ function ccTimed.ActivateSeedEffect(effect)
     if Game():GetSeeds():HasSeedEffect(effect) == true then
         return responseCode.failure, "Effect already active"
     end
-    Game():GetSeeds():AddSeedEffect(effect)
+    if Game():GetSeeds():AddSeedEffect(effect) ==true then
     return responseCode.success
+    end
 end
 
 function ccTimed.EndSeedEffect(effect)
@@ -104,7 +105,7 @@ function ccTimed.SUPERHOT_end()
 end
 
 function ccTimed.NoHUD()
-    return ccTimed.ActivateSeedEffect(SeedEffect.SEED_NO_HUD)
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_NO_HUD)
 end
 
 function ccTimed.NoHUD_end()
@@ -129,5 +130,3 @@ ccTimed.methods = {
 }
 
 return ccTimed
-
-
