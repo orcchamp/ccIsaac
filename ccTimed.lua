@@ -30,14 +30,6 @@ function ccTimed.GiveItem(item)
     return responseCode.success
 end
 
-function ccTimed.Invulnerable()
-    return ccTimed.ActivateSeedEffect(SeedEffect.SEED_INVISIBLE_ISAAC)
-end
-
-function ccTimed.Invulnerable_end()
-    return ccTimed.EndSeedEffect(SeedEffect.SEED_INVISIBLE_ISAAC)
-end
-
 function ccTimed.InverseControls()
     return ccTimed.ActivateSeedEffect(SeedEffect.SEED_CONTROLS_REVERSED)
 end
@@ -91,8 +83,8 @@ function ccTimed.flight_end()
 end
 
 function ccTimed.SUPERHOT()
-    if SeedEffect.SEED_ICE_PHYSICS ~= nil then
-        return ccTimed.ActivateSeedEffect(SeedEffect.SEED_ICE_PHYSICS)
+    if SeedEffect.SEED_SUPER_HOT ~= nil then
+        return ccTimed.ActivateSeedEffect(SeedEffect.SEED_SUPER_HOT)
     else
         return responseCode.failure, "Can only be used with Repentance"
     end
@@ -101,7 +93,7 @@ function ccTimed.SUPERHOT()
 end
 
 function ccTimed.SUPERHOT_end()
-    return ccTimed.EndSeedEffect(SeedEffect.SEED_ICE_PHYSICS)
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_SUPER_HOT)
 end
 
 function ccTimed.NoHUD()
@@ -129,11 +121,11 @@ function ccTimed.POOPTRAIL_end()
 end
 
 function ccTimed.Invisble()
-    ccTimed.ActivateSeedEffect(SeedEffect.SEED_INVINCIBLE)
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_INVISIBLE_ISAAC)
 end
 
 function ccTimed.Invisble_end()
-    return ccTimed.EndSeedEffect(SeedEffect.SEED_INVINCIBLE)
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_INVISIBLE_ISAAC)
 end
 
 function ccTimed.IcePhysics()
@@ -176,6 +168,15 @@ function ccTimed.MassiveDamage_end()
     return ccTimed.EndSeedEffect(SeedEffect.SEED_ISAAC_TAKES_MASSIVE_DAMAGE)
 end
 
+function ccTimed.Invincible()
+    return ccTimed.ActivateSeedEffect(SeedEffect.SEED_INVINCIBLE)
+end
+
+function ccTimed.Invincible_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_INVINCIBLE)
+end
+
+
 --turned off for now :(
 --function ccTimed.Gfuel()
 --    ccTimed.ActivateSeedEffect(SeedEffect.SEED_G_FUEL)
@@ -188,8 +189,6 @@ end
 ccTimed.methods = {
     inverted_timed = ccTimed.InverseControls,
     inverted_timed_end = ccTimed.InverseControls_end,
-    invulnerable_timed = ccTimed.Invulnerable,
-    invulnerable_timed_end = ccTimed.Invulnerable_end,
     pixelation_timed = ccTimed.Pixelation,
     pixelation_timed_end = ccTimed.Pixelation_end,
     flipped_timed = ccTimed.flipped,
@@ -216,8 +215,8 @@ ccTimed.methods = {
     damage_when_stopped_timed_end = ccTimed.DamageWhenStopped_end,
     isaac_takes_massive_damage_timed = ccTimed.MassiveDamage,
     isaac_takes_massive_damage_timed_end = ccTimed.MassiveDamage_end,
-    --gfuel_timed = ccTimed.Gfuel,
-    --gfuel_timed_end = ccTimed.Gfuel_end
+    invincible_timed = ccTimed.Invincible,
+    invincible_timed_end = ccTimed.Invincible_end
 }
 
 return ccTimed
