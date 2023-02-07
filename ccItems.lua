@@ -280,6 +280,21 @@ function ccItems.RemoveCursedEye()
     return ccItems.TakeItem(CollectibleType.COLLECTIBLE_CURSED_EYE)
 end
 
+function ccItems.GiveTechX()
+    return ccItems.GiveItem(CollectibleType.COLLECTIBLE_TECH_X)
+end
+
+function ccItems.RemoveTechX()
+    return ccItems.TakeItem(CollectibleType.COLLECTIBLE_TECH_X)
+end
+
+function ccItems.GiveDrFetus()
+    return ccItems.GiveItem(CollectibleType.COLLECTIBLE_DR_FETUS)
+end
+
+function ccItems.RemoveDrFetus()
+    return ccItems.TakeItem(CollectibleType.COLLECTIBLE_DR_FETUS)
+end
 
 --When adding a new function add the mapping of Crowd control code to function here
 ccItems.methods = {
@@ -328,7 +343,11 @@ ccItems.methods = {
     give_god_head = ccItems.GiveGodHead,
     remove_god_head = ccItems.RemoveGodHead,
     give_cursed_eye = ccItems.GiveCursedEeye,
-    remove_cursed_eye = ccItems.RemoveCursedEye
+    remove_cursed_eye = ccItems.RemoveCursedEye,
+    give_tech_x = ccItems.GiveTechX,
+    remove_tech_x = ccItems.RemoveTechX,
+    give_dr_fetus = ccItems.GiveDrFetus,
+    remove_dr_fetus = ccItems.RemoveDrFetus
 }
 
 return ccItems

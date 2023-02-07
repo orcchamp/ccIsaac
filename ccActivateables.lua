@@ -176,6 +176,15 @@ function ccActivateables.UseSprinkler()
     return responseCode.success
 end
 
+function ccActivateables.UseDeathCertificate()
+    if CollectibleType.COLLECTIBLE_DEATH_CERTIFICATE == nil then
+        return responseCode.failure, "Must be playing Repentance"
+    else
+        ccActivateables.UseActiveItem(CollectibleType.COLLECTIBLE_DEATH_CERTIFICATE)
+    end
+    return responseCode.success
+end
+
 --When adding a new function add the mapping of Crowd control code to function here
 ccActivateables.methods = {
     use_d1 = ccActivateables.RollD1,
@@ -206,7 +215,8 @@ ccActivateables.methods = {
     use_sacrificial_altar = ccActivateables.UseSacrificialAltar,
     use_dull_razor = ccActivateables.UseDullRazor,
     use_wavy_cap = ccActivateables.UseWavyCap,
-    use_sprinkler = ccActivateables.UseSprinkler
+    use_sprinkler = ccActivateables.UseSprinkler,
+    use_death_certificate = ccActivateables.UseDeathCertificate
 
 }
 return ccActivateables

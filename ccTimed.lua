@@ -91,8 +91,8 @@ function ccTimed.flight_end()
 end
 
 function ccTimed.SUPERHOT()
-    if SeedEffect.SEED_SUPER_HOT ~= nil then
-        return ccTimed.ActivateSeedEffect(SeedEffect.SEED_SUPER_HOT)
+    if SeedEffect.SEED_ICE_PHYSICS ~= nil then
+        return ccTimed.ActivateSeedEffect(SeedEffect.SEED_ICE_PHYSICS)
     else
         return responseCode.failure, "Can only be used with Repentance"
     end
@@ -101,7 +101,7 @@ function ccTimed.SUPERHOT()
 end
 
 function ccTimed.SUPERHOT_end()
-    return ccTimed.EndSeedEffect(SeedEffect.SEED_SUPER_HOT)
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_ICE_PHYSICS)
 end
 
 function ccTimed.NoHUD()
@@ -111,6 +111,79 @@ end
 function ccTimed.NoHUD_end()
     return ccTimed.EndSeedEffect(SeedEffect.SEED_NO_HUD)
 end
+
+function ccTimed.OLDTV()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_OLD_TV)
+end
+
+function ccTimed.OLDTV_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_OLD_TV)
+end
+
+function ccTimed.POOPTRAIL()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_POOP_TRAIL)
+end
+
+function ccTimed.POOPTRAIL_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_POOP_TRAIL)
+end
+
+function ccTimed.Invisble()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_INVINCIBLE)
+end
+
+function ccTimed.Invisble_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_INVINCIBLE)
+end
+
+function ccTimed.IcePhysics()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_ICE_PHYSICS)
+end
+
+function ccTimed.IcePhysics_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_ICE_PHYSICS)
+end
+
+function ccTimed.CamoEnemies()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_CAMO_ENEMIES)
+end
+
+function ccTimed.CamoEnemies_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_CAMO_ENEMIES)
+end
+
+function ccTimed.Dyslexia()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_DYSLEXIA)
+end
+
+function ccTimed.Dyslexia_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_DYSLEXIA)
+end
+
+function ccTimed.DamageWhenStopped()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_DAMAGE_WHEN_STOPPED)
+end
+
+function ccTimed.DamageWhenStopped_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_DAMAGE_WHEN_STOPPED)
+end
+
+function ccTimed.MassiveDamage()
+    ccTimed.ActivateSeedEffect(SeedEffect.SEED_ISAAC_TAKES_MASSIVE_DAMAGE)
+end
+
+function ccTimed.MassiveDamage_end()
+    return ccTimed.EndSeedEffect(SeedEffect.SEED_ISAAC_TAKES_MASSIVE_DAMAGE)
+end
+
+--turned off for now :(
+--function ccTimed.Gfuel()
+--    ccTimed.ActivateSeedEffect(SeedEffect.SEED_G_FUEL)
+--end
+
+--function ccTimed.Gfuel_end()
+--    return ccTimed.EndSeedEffect(SeedEffect.SEED_G_FUEL)
+--end
 
 ccTimed.methods = {
     inverted_timed = ccTimed.InverseControls,
@@ -126,7 +199,25 @@ ccTimed.methods = {
     super_hot_timed = ccTimed.SUPERHOT,
     super_hot_timed_end = ccTimed.SUPERHOT_end,
     no_hud_timed = ccTimed.NoHUD,
-    no_hud_timed_end = ccTimed.NoHUD_end
+    no_hud_timed_end = ccTimed.NoHUD_end,
+    old_tv_timed = ccTimed.OLDTV,
+    old_tv_timed_end = ccTimed.OLDTV_end,
+    poop_trail_timed = ccTimed.POOPTRAIL,
+    poop_trail_timed_end = ccTimed.POOPTRAIL_end,
+    invisble_timed = ccTimed.Invisble,
+    invisble_timed_end = ccTimed.Invisble_end,
+    ice_physics_timed = ccTimed.IcePhysics,
+    ice_physics_timed_end = ccTimed.IcePhysics_end,
+    camo_enemies_timed = ccTimed.CamoEnemies,
+    camo_enemies_timed_end = ccTimed.CamoEnemies_end,
+    dyslexia_timed = ccTimed.Dyslexia,
+    dyslexia_timed_end = ccTimed.Dyslexia_end,
+    damage_when_stopped_timed = ccTimed.DamageWhenStopped,
+    damage_when_stopped_timed_end = ccTimed.DamageWhenStopped_end,
+    isaac_takes_massive_damage_timed = ccTimed.MassiveDamage,
+    isaac_takes_massive_damage_timed_end = ccTimed.MassiveDamage_end,
+    --gfuel_timed = ccTimed.Gfuel,
+    --gfuel_timed_end = ccTimed.Gfuel_end
 }
 
 return ccTimed

@@ -28,13 +28,20 @@ rng = RNG() --General RNG method used by all functions
 methodmap = {} --Will contain all functions
 
 time_table = {
-    ["inverted_timed"] = 60000,
-    ["invulnerable_timed"] = 15000,
+    ["inverted_timed"] = 30000,
+    ["invulnerable_timed"] = 30000,
     ["pixelation_timed"] = 30000,
     ["flipped_timed"] = 30000,
-    ["flight_timed"] = 30000,
+    ["flight_timed"] = 60000,
     ["super_hot_timed"] = 60000,
-    ["no_hud_timed"] = 60000
+    ["no_hud_timed"] = 60000,
+    ["old_tv_timed"] = 60000,
+    ["poop_trail_timed"] = 15000,
+    ["invisble_timed"] = 30000,
+    ["isaac_takes_massive_damage_timed"] = 15000,
+    ["damage_when_stopped_timed"] = 10000,
+    ["dyslexia_timed"] = 60000,
+    ["camo_enemies_timed"] = 30000
 }
 
 timed_effects = {} --Table containing all currently running effects name = (duration_left_ms, id)
@@ -220,6 +227,14 @@ function ccIsaac.EndAllEffects()
     answer = ccTimed.Pixelation_end()
     answer = ccTimed.Invulnerable_end()
     answer = ccTimed.InverseControls_end()
+    answer = ccTimed.OldTv_end()
+    answer = ccTimed.POOPTRAIL_end()
+    answer = ccTimed.Invisble_end()
+    answer = ccTimed.Dyslexia_end()
+    answer = ccTimed.DamageWhenStopped_end()
+    answer = ccTimed.MassiveDamage_end()
+    answer = ccTimed.CamoEnemies_end()
+    --answer = ccTimed.Gfuel_end()
     return answer --Yes this is a shit method, dont think about it
 end
 
