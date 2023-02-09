@@ -27,8 +27,8 @@ namespace CrowdControl.Games.Packs
 			new Effect("Add Heart Container", "add_heart_container") {Price = 50, Description = "Add a red heart container"},
 			new Effect("Remove Heart Container", "remove_heart_container") {Price = 50, Description = "Remove a red heart container (can not remove last red heart container)"},
 			new Effect("Damage Player", "damage_half_heart") {Price = 30, Description = "Deal half a red heart of damage (will not kill player)"},
-			new Effect("Heal Player", "heal_half_heart") {Price = 20, Description = "Heal half a red heart of damage"},
-			new Effect("Full Heal Player", "heal_full") {Price = 100, Description = "Fills all empty red hearts"},
+			new Effect("Heal Player", "heal_half_heart") {Price = 10, Description = "Heal half a red heart of damage"},
+			new Effect("Full Heal Player", "heal_full") {Price = 50, Description = "Fills all empty red hearts"},
 			new Effect("Teleport Player", "random_tp") {Price = 50, Description = "Teleport player to a random room, including secret rooms"},
 			new Effect("Give Blue spider", "give_blue_spider", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue spiders"},
 			new Effect("Give Flies", "give_blue_flies", new[]{"amount50"}) {Price = 5, Description = "Give the player a number of blue flies"},
@@ -37,6 +37,7 @@ namespace CrowdControl.Games.Packs
 			new Effect("Use Item", "use_active_item") {Price = 50, Description = "Use the current active item and drain its charge!"},
 			new Effect("Fart!", "fart") {Price = 10, Description = "Oof, thats a smelly one"},
 			new Effect("Explode!", "explode") {Price = 10, Description = "Explosion (will not kill player)!"},
+			new Effect("Apply A Random Curse", "apply_random_curse") {Price = 50, Description = "Apply a random curse, like curse of Gamma Up!, the blind, the maze"},
 
 			//Timed Effects Folder
 			new Effect("Timed Effects", "timed_effects", ItemKind.Folder),
@@ -134,7 +135,6 @@ namespace CrowdControl.Games.Packs
 
 			//Give or Take Items folder
 			new Effect("Give/Take Item", "give_take_item", ItemKind.Folder),
-			new Effect("Apply A Random Curse", "apply_random_curse", "give_take_item") {Price = 50, Description = "Apply a random curse, like curse of Gamma Up!, the blind, the maze"},
 			new Effect("Give Random Item", "give_random_item", "give_take_item") {Price = 50, Description = "Give any random item (can give items not unlocked yet)"},
 			new Effect("Give Missing No", "give_missing_no", "give_take_item") {Price = 100, Description = "S\ny\nn\nt\na\nx\ne\nr\nr\no\nr"},
 			new Effect("Give Soy Milk", "give_soy_milk", "give_take_item") {Price = 50, Description = "DMG down + tears way up"},
