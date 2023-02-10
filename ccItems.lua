@@ -11,7 +11,7 @@ function ccItems.GiveItem(item)
         return responseCode.failure, "User Already Has Item"
     end
 	--player:QueueItem(Isaac.GetItemConfig():GetCollectible(item))
-	--player:AnimateCollectible(item, "Pickup", "PlayerPickupSparkle")
+	player:AnimateCollectible(item, "Pickup", "PlayerPickupSparkle")
     player:AddCollectible(item, 0, true)
     return responseCode.success
 end
@@ -21,6 +21,7 @@ function ccItems.TakeItem(item)
     if not player:HasCollectible(item) then
         return responseCode.failure, "User Doesn't Have Item To Remove"
     end
+    player:AnimateSad ()
     player:RemoveCollectible(item)
     return responseCode.success
 end
