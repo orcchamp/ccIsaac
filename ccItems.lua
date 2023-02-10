@@ -10,9 +10,9 @@ function ccItems.GiveItem(item)
     if player:HasCollectible(item) then
         return responseCode.failure, "User Already Has Item"
     end
-	player:AnimateCollectible(item, "Pickup", "PlayerPickupSparkle")
+	--player:QueueItem(Isaac.GetItemConfig():GetCollectible(item))
+	--player:AnimateCollectible(item, "Pickup", "PlayerPickupSparkle")
     player:AddCollectible(item, 0, true)
-	
     return responseCode.success
 end
 
@@ -209,18 +209,18 @@ function ccItems.RemoveDeepPockets()
 end
 
 function ccItems.GiveBirthRight()
-	if CollectibleType.COLLECTIBLE_BIRTH_RIGHT ~= nil then -- for afterbirth
-		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_BIRTH_RIGHT)
+	if CollectibleType.COLLECTIBLE_BIRTHRIGHT ~= nil then -- for afterbirth
+		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	else
-		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_BIRTH_RIGHT)
+		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	end
 end
 
 function ccItems.RemoveBirthRight()
-    if CollectibleType.COLLECTIBLE_BIRTH_RIGHT ~= nil then -- for afterbirth
-		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_BIRTH_RIGHT)
+    if CollectibleType.COLLECTIBLE_BIRTHRIGHT ~= nil then -- for afterbirth
+		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	else
-		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_BIRTH_RIGHT)
+		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_BIRTHRIGHT)
 	end
 end
 
@@ -257,18 +257,18 @@ function ccItems.RemoveBozo()
 end
 
 function ccItems.GiveGodHead()
-	if CollectibleType.COLLECTIBLE_GOD_HEAD ~= nil then -- for afterbirth
-		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_GOD_HEAD)
+	if CollectibleType.COLLECTIBLE_GODHEAD ~= nil then -- for afterbirth
+		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_GODHEAD)
 	else
-		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_GOD_HEAD)
+		return ccItems.GiveItem(CollectibleType.COLLECTIBLE_GODHEAD)
 	end
 end
 
 function ccItems.RemoveGodHead()
-    if CollectibleType.COLLECTIBLE_GOD_HEAD ~= nil then -- for afterbirth
-		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_GOD_HEAD)
+    if CollectibleType.COLLECTIBLE_GODHEAD ~= nil then -- for afterbirth
+		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_GODHEAD)
 	else
-		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_GOD_HEAD)
+		return ccItems.TakeItem(CollectibleType.COLLECTIBLE_GODHEAD)
 	end
 end
 
