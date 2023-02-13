@@ -195,8 +195,8 @@ function ccConsumables.UseHolyCard()
     return responseCode.success
 end
 
-function ccConsumables.UseJeraRune()
-    player:UseCard((Card.RUNE_JERA))
+function ccConsumables.UseDagazRune()
+    player:UseCard((Card.RUNE_DAGAZ))
     return responseCode.success
 end
 
@@ -263,7 +263,7 @@ ccConsumables.methods = {
     use_holy_card = ccConsumables.UseHolyCard,
     use_random_pill = ccConsumables.UseRandomPill,
     use_explosive_diarrhea_pill = ccConsumables.UseExplosiveDiarrhea,
-    use_jera_rune = ccConsumables.UseJeraRune,
+    use_dagaz_rune = ccConsumables.UseDagazRune,
     use_chaos_card = ccConsumables.UseChaosCard,
     use_credit_card = ccConsumables.UseCreditCard,
     use_suicide_king_card = ccConsumables.UseSuicideKingCard,
