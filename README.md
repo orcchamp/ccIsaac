@@ -25,5 +25,6 @@ or
 - Message me on discord (@Dr. Njitram#0451)
 # Credits
 Created by cloudlupus
-Updated and currently maintained by Dr_Njitram
-Fork By OrcChamp
+2022 Update for Afterbirth by DrNjitram
+2023 Update by OrcChamp
+Currenly maintained by OrcChamp and DrNjitram
